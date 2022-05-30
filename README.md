@@ -1,9 +1,14 @@
 # Artificial Intelligence
 ## Author: Rohan Singh
-This repository is for my personal AI projects. 
-Source code is in Java and Python.
+This repository is for my personal AI projects. Source code is in both **Java (under the CSDS391 directory)** and **Python (under the AI directory)**.
+Python code simply has the code for the algorithms, while the Java code uses the algorithms within an actual environment with objects.
 
-Content includes the following:
+**Finished:** *Uninformed search, Informed search, and Search for Optimization.*
+
+**Under Progress:** *Adversarial Search*
+
+
+Content that I plan to put in this project (to be finished by the end of August):
 1) Problem Solving with Search-\
     (A) Uninformed Search\
     (B) Informed Search\
