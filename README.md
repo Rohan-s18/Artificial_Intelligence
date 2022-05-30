@@ -17,7 +17,7 @@ Content includes the following:
     (D) Inference in First Order Logic\
     (E) Automated Planning
     
-3) Probability and Machine Learning-
+3) Probability and Machine Learning-\
     (A) Basic Probability\
     (B) Probabistic Inference\ 
     (C) Bayesian Networks\
