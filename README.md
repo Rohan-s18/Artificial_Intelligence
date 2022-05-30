@@ -1,7 +1,7 @@
 # Artificial Intelligence
 ## Author: Rohan Singh
 This repository is for my personal AI projects. Source code is in both **Java (under the CSDS391 directory)** and **Python (under the AI directory)**.
-Python code simply has the code for the algorithms, while the Java code uses the algorithms within an actual environment with objects.
+Python code simply has the code for the algorithms, while the Java code uses the algorithms within an actual environment with objects. *Note:*The pyplot.py and GraphADT.py files are kept at the very beginning, because that code will be used in other algorithms and will be required a lot.
 
 **Finished:** *Uninformed search, Informed search, and Search for Optimization.*
 
