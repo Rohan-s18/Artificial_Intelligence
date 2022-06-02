@@ -33,4 +33,7 @@ Content that I plan to put in this project (to be finished by the end of August)
     (H) Perceptrons\
     (I) Artificial Neural Networks
   
-4) Decision Making under uncertainity and NLP-\(A) Sequential Decision Making\(B) Reinforcement Learning\(C) Natural Language Processing 
+4) Decision Making under uncertainity and NLP-\
+    (A) Sequential Decision Making\
+    (B) Reinforcement Learning\
+    (C) Natural Language Processing 
