@@ -3,70 +3,101 @@ import java.io.*;
 
 public class EightPuzzle {
 	
-	private BoardState state;
-	private int maxStates;
-	//private Set<String> visited;
+	//Private BoardState inner class at the bottom of the code
+	private BoardState state;			//Instance variable that refers to the current board state
+	private int maxStates;				//This holds the maximum number of nodes that can be expanded
 	
+	//Constructor
 	public EightPuzzle() {
+		//Cerating the initial state
 		state = new BoardState("b12345678", 0, null);
-		maxStates = Integer.MAX_VALUE;
+		maxStates = Integer.MAX_VALUE;		//If not specified, setting the maximum number of expandable nodes to the max Integer 
 	}
 	
+	//Method to set the state of the board to the String state that is provided in the text.
 	public boolean setState(String state) {
+		
+		//Checking if the provided String is valid or not using an isValid() helper method
 		if(!isValidState(state))
 			return false;
+		
+		//Setting the String state 
 		this.state.myState = state;
+		
+		//Setting the new Blank Tile position
 		this.state.myBlankTile = getBlankTile();
 		return true;
 	}
 	
+	//Printing the state of the board
 	public void printState() {
-		System.out.println(state);
+		System.out.println(state.myState);
 	}
 	
+	
+	//Setting the maximum number of expandable nodes
 	public void maxNodes(int n) {
 		maxStates = n;
 	}
 	
-	
+	//Method to make the move
 	public boolean move(String move) {
+		
+		//The case that the command is given as "up"
 		if(move.equals("up")) {
+			//Calling the moveUp helper method
 			this.state = moveUp(state);
 			return true;
 		}
+		
+		//The case that the command is given as "down"
 		if(move.equals("down")) {
+			//Calling the moveDown helper method
 			this.state = moveDown(state);
 			return true;
 		}
+		
+		//The case that the command is given as "left"
 		if(move.equals("left")) {
+			//Calling the moveLeft helper method
 			this.state = moveLeft(state);
 			return true;
 		}
+		
+		//The case that the command is given as "right"
 		if(move.equals("right")) {
+			//Calling the moveRight helper method
 			this.state = moveRight(state);
 			return true;
 		}
 		
+		//If a different String argument was given
 		return false;
 	}
 	
+	//Method to randomize the state of the 8-puzzle
 	public void randomizeState(int n) {
 		//Resetting to the goal position
 		state.myState = "b12345678";
 		state.myBlankTile = 0;
 		
+		//Array of the legal moves that we can make
 		String[] legalMoves = {"up","down","left","right"};
 		String tempMove;
 		for(int i = 0; i < n; i++) {
+			//Getting a random move
 			tempMove = legalMoves[(int)(4*Math.random())];
 			move(tempMove);
 		}
 	}
 	
-	public void solveAStar(String heurestic) throws Exception {
-		if(heurestic.equals("h1"))
+	//Method to solve the 8-puzzle using the A* algorithm
+	public void solveAStar(String heuristic) throws Exception {
+		//Going to the solveH1() helper method if the heuristic provided is h1
+		if(heuristic.equals("h1"))
 			solveH1();
-		else if(heurestic.equals("h2"))
+		//Going to the solveH1() helper method if the heuristic provided is h2
+		else if(heuristic.equals("h2"))
 			solveH2();
 		else
 			throw new Exception("Invalid heurestic provided");
