@@ -1,14 +1,15 @@
 # Artificial Intelligence
 ## Author: Rohan Singh
-This repository is for my personal AI projects. Source code is in both **Java (under the CSDS391 directory)** and **Python (under the AI directory)**.
-Python code simply has the code for the algorithms, while the Java code uses the algorithms within an actual environment with objects. *Note:*The pyplot.py and GraphADT.py files are kept at the very beginning, because that code will be used in other algorithms and will be required a lot.
+This repository is for my personal AI projects. Source code is in both **Java (under the CSDS391 directory)** and **Python (under the AI directory)**, the code in both of these directories can be used as templates for other AI programs that implement these algorithms. *Note:*The pyplot.py and GraphADT.py files are kept at the very beginning, because that code will be used in other algorithms and will be required a lot. 
 
-**Finished:** *A* algorithm, Uninformed search, Informed search, and Search for Optimization.*
+Other than the customizable templates for AI, there are also some projects that integrate these AI algorithms with real-applications, mostly games that are solved using AI algorithms.
 
-**Under Progress:** *Adversarial Search*
+**Customizable Templates:** *A-star algorithm, Uninformed search, Informed search, Hill Climbing, Simulated Annealing and local beam search.*
 
 
-Content that I plan to put in this project (to be finished by the end of August):
+**AI-based Implementations:** *Eight puzzle (using A-star Algorithm)*
+
+Content that I plan to put in this project:
 1) Problem Solving with Search-\
     (A) Uninformed Search\
     (B) Informed Search\
@@ -24,7 +25,7 @@ Content that I plan to put in this project (to be finished by the end of August)
     
 3) Probability and Machine Learning-\
     (A) Basic Probability\
-    (B) Probabistic Inference\ 
+    (B) Probabistic Inference\
     (C) Bayesian Networks\
     (D) DBNs\
     (E) Machine Learning\
