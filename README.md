@@ -7,7 +7,7 @@ Other than the customizable templates for AI, there are also some projects that 
 **Customizable Templates:** *A-star algorithm, Uninformed search, Informed search, Hill Climbing, Simulated Annealing and local beam search.*
 
 
-**AI-based Implementations:** *Eight puzzle (using A-star Algorithm)*
+**AI-based Implementations:** *Eight puzzle (using A-star Algorithm and Local beam search)*
 
 Content that I plan to put in this project:
 1) Problem Solving with Search-\
