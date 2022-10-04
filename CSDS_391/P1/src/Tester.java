@@ -6,15 +6,17 @@ public class Tester {
 		EightPuzzle foo = new EightPuzzle();
 		//foo.printBoard();
 		
-		/*foo.move("right");
 		foo.move("right");
-		foo.move("down");*/
+		foo.move("right");
+		foo.move("down");
 		
-		foo.randomizeState(100);
+		//foo.randomizeState(1000);
+		
+		foo.setState("b23751468");
 		
 		foo.printBoard();
 		
-		foo.maxNodes(15);
+		foo.maxNodes(1000);
 		
 		
 		try {
@@ -22,6 +24,17 @@ public class Tester {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		System.out.println("\n\n\n");
+		
+		/*
+		foo.randomizeState(100);
+		
+		foo.printBoard();
+		
+		
+		foo.solveBeam(15);
+		*/
 	}
 
 }
