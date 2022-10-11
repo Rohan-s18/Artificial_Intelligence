@@ -1,6 +1,7 @@
 import java.util.*;
 import java.io.*;
 
+//Class that represents an eight puzzle
 public class EightPuzzle {
 	
 	//Private BoardState inner class at the bottom of the code
@@ -14,19 +15,66 @@ public class EightPuzzle {
 		maxStates = Integer.MAX_VALUE;		//If not specified, setting the maximum number of expandable nodes to the max Integer 
 	}
 	
+	//Method to read the commands from a text file
+	public void readCommands(String filepath) throws Exception {
+			//Creating the buffered reader object
+			BufferedReader br = new BufferedReader(new FileReader(new File(filepath)));
+			
+			String line;
+			
+			//Checking the commands and using the correct methods based with the correct arguments
+			while((line = br.readLine()) != null) {
+				
+				if(line.substring(0, 4).equals("move")) {
+					move(line.substring(5));
+				}
+				
+				else if(line.equals("printState")) {
+					printBoardState(state.myState);
+				}
+				
+				else if(line.substring(0, 8).equals("setState")) {
+					String state = line.substring(9,12);
+					state+= line.substring(13,16);
+					state+= line.substring(17,20);
+					setState(state);
+				}
+				
+				else if(line.substring(0, 8).equals("maxNodes")) {
+					maxNodes(Integer.parseInt(line.substring(9)));
+				}
+				
+				else if(line.substring(0, 10).equals("solve beam")) {
+					solveBeam(Integer.parseInt(line.substring(11)));
+				}
+				
+				else if(line.substring(0, 12).equals("solve A-star")) {
+					solveAStar(line.substring(13));
+				}
+				
+				else if(line.substring(0,14).equals("randomizeState")) {
+					randomizeState(Integer.parseInt(line.substring(15)));
+				}
+				
+				
+				
+			}
+			
+		}
+	
 	//Method to set the state of the board to the String state that is provided in the text.
-	public boolean setState(String state) {
+	public String setState(String state) throws IllegalArgumentException {
 		
 		//Checking if the provided String is valid or not using an isValid() helper method
 		if(!isValidState(state))
-			return false;
+			throw new IllegalArgumentException();
 		
 		//Setting the String state 
 		this.state.myState = state;
 		
 		//Setting the new Blank Tile position
 		this.state.myBlankTile = getBlankTile();
-		return true;
+		return this.state.myState;
 	}
 	
 	//Printing the state of the board
@@ -35,8 +83,16 @@ public class EightPuzzle {
 	}
 	
 	
+	//Getting the state of the board for testing (package method)
+	String getState() {
+		return this.state.myState;
+	}
+	
+	
 	//Setting the maximum number of expandable nodes
 	public void maxNodes(int n) {
+		if(n<0)
+			throw new IllegalArgumentException("n cannot be negative");
 		maxStates = n;
 	}
 	
@@ -44,28 +100,28 @@ public class EightPuzzle {
 	public boolean move(String move) {
 		
 		//The case that the command is given as "up"
-		if(move.equals("up")) {
+		if(move.toLowerCase().equals("up")) {
 			//Calling the moveUp helper method
 			this.state = moveUp(state);
 			return true;
 		}
 		
 		//The case that the command is given as "down"
-		if(move.equals("down")) {
+		if(move.toLowerCase().equals("down")) {
 			//Calling the moveDown helper method
 			this.state = moveDown(state);
 			return true;
 		}
 		
 		//The case that the command is given as "left"
-		if(move.equals("left")) {
+		if(move.toLowerCase().equals("left")) {
 			//Calling the moveLeft helper method
 			this.state = moveLeft(state);
 			return true;
 		}
 		
 		//The case that the command is given as "right"
-		if(move.equals("right")) {
+		if(move.toLowerCase().equals("right")) {
 			//Calling the moveRight helper method
 			this.state = moveRight(state);
 			return true;
@@ -80,6 +136,9 @@ public class EightPuzzle {
 		//Resetting to the goal position
 		state.myState = "b12345678";
 		state.myBlankTile = 0;
+		
+		if(n<0)
+			throw new IllegalArgumentException("n cannot be negative");
 		
 		//Array of the legal moves that we can make
 		String[] legalMoves = {"up","down","left","right"};
@@ -104,63 +163,74 @@ public class EightPuzzle {
 	}
 	
 	//Method to solve the puzzle using Local Beam search using k states
-	public void solveBeam(int k) {
+	public void solveBeam(int k) throws Exception {
 		//Initializing the variables
-		List<BoardState> myList = new ArrayList<BoardState>();			//List to keep track of the states
-		PriorityQueue<BoardState> bestChildren = new PriorityQueue<BoardState>();		//Priority queue to find the best states
-		HashSet<String> finalized = new HashSet<String>();				//Keeping a HashSet to keep track of the finalized states
-		BoardState goalState = null;
-		
-		//Adding the current state to the list
-		myList.add(this.state);
-		
-		int ct = 0;														//Counting the number of nodes that are being ocnsidered
-		boolean found = false;											//Boolean flag to see if we have reached the goal state or not
-		while(!myList.isEmpty() && !found && ct < maxStates) {
-			//Reinitializing the priority queue
-			bestChildren = new PriorityQueue<BoardState>();
-			
-			//iterating through the list of 'k' states
-			for(int i = 0; i < myList.size(); i++) {
-				//Getting the state, finalizing it, and then generating the list of its children
-				BoardState curr = myList.get(i);
-				finalized.add(curr.myState);
-				List<BoardState> tempList = curr.generateChildrenLocalBeam();
+				List<BoardState> myList = new ArrayList<BoardState>();			//List to keep track of the states
+				PriorityQueue<BoardState> bestChildren = new PriorityQueue<BoardState>();		//Priority queue to find the best states
+				HashSet<String> finalized = new HashSet<String>();				//Keeping a HashSet to keep track of the finalized states
+				BoardState goalState = null;
 				
-				//Iterating through its children and adding them to the Priority Queue
-				for(int j = 0; j < tempList.size(); j++) {
-					BoardState temp = tempList.get(j);
-					//If the child has been finalized, then we will be moving on
-					if(finalized.contains(temp.myState))
-						continue;
-					bestChildren.add(temp);
-				}
+				//Adding the current state to the list
+				myList.add(this.state);
 				
-			}
-			
-			//Re-initializing the beam of states
-			myList = new ArrayList<BoardState>();
-			
-			//adding the 'k' most optimum states to the list
-			for(int i = 0; i < k && !bestChildren.isEmpty(); i++) {
-				myList.add(bestChildren.remove());
-				//If we find the goalState, then we change the flag to found and set the goalState equal to it 
-				if(myList.get(i).myState.equals("b12345678")) {
-					found = true;
-					goalState = myList.get(i);
+				if(this.state.myState.equals("b12345678")) {
+					System.out.println("We solved the puzzle!");
+					System.out.println("We used 0 moves and considered 0 nodes!");
+					return;
 				}
-			}
-			
-			ct++;
-		}
+					
+				
+				int ct = 0;														//Counting the number of nodes that are being ocnsidered
+				boolean found = false;											//Boolean flag to see if we have reached the goal state or not
+				while(!myList.isEmpty() && !found && ct <= maxStates) {
+					//Reinitializing the priority queue
+					bestChildren = new PriorityQueue<BoardState>();
+					
+					//iterating through the list of 'k' states
+					for(int i = 0; i < myList.size(); i++) {
+						//Getting the state, finalizing it, and then generating the list of its children
+						BoardState curr = myList.get(i);
+						finalized.add(curr.myState);
+						List<BoardState> tempList = curr.generateChildrenLocalBeam();
+						
+						//Iterating through its children and adding them to the Priority Queue
+						for(int j = 0; j < tempList.size(); j++) {
+							BoardState temp = tempList.get(j);
+							//If the child has been finalized, then we will be moving on
+							if(finalized.contains(temp.myState))
+								continue;
+							bestChildren.add(temp);
+						}
+						
+					}
+					
+					//Re-initializing the beam of states
+					myList = new ArrayList<BoardState>();
+					
+					//adding the 'k' most optimum states to the list
+					for(int i = 0; i < k && !bestChildren.isEmpty(); i++) {
+						myList.add(bestChildren.remove());
+						//If we find the goalState, then we change the flag to found and set the goalState equal to it 
+						if(myList.get(i).myState.equals("b12345678")) {
+							found = true;
+							goalState = myList.get(i);
+						}
+					}
+					
+					ct+=8;
+					
+				}
 		
 		//If we exited because of the Maximum limit being reached
-		if(ct == maxStates)
-			System.out.println("Maximum limit has been reached");
+		if(ct > maxStates)
+			throw new Exception("Maximum limit has been reached");
 			
 		
-		if(goalState != null)
+		boolean solved = false;
+		if(goalState!=null) {
 			System.out.println("We solved the puzzle!");
+			solved = true;
+		}
 		
 		
 		//Getting the path by backtracking
@@ -170,15 +240,23 @@ public class EightPuzzle {
 			goalState = goalState.parentState;
 		}
 		
+		int numMoves = 0;
 		//Printing the boards that we get in the path
 		while(!path.isEmpty()) {
 			printBoardState(path.pop().myState);
+			numMoves++;
 		}
+		
+		if(solved)
+			System.out.printf("We solved the puzzle and we used %d moves and considered %d nodes\n",numMoves,ct);
+		else
+			System.out.printf("We couldn't solve the puzzle and we used %d moves and considered %d nodes\n",numMoves,ct);
+		
 		
 	}
 	
 	//Private helper methods
-	private void solveH1() {
+	private void solveH1() throws Exception {
 		//Initializing the variables
 		PriorityQueue<BoardState> pq = new PriorityQueue<BoardState>();		//Using the priority queue to find the lowest cost node
 		HashSet<String> finalized = new HashSet<String>();					//Keeping the set of finalized states
@@ -189,7 +267,7 @@ public class EightPuzzle {
 		
 		int ct = 0;
 		//While the finalized set doesn't contain the goal state, the priority queue is not empty and the number of expanded nodes is less than the maxStates
-		while(!finalized.contains("b12345678") && !pq.isEmpty() && ct < maxStates) {
+		while(!finalized.contains("b12345678") && !pq.isEmpty() && ct <= maxStates) {
 			//Getting the lowest cost State
 			BoardState curr = pq.remove();
 			
@@ -217,12 +295,11 @@ public class EightPuzzle {
 		}
 		
 		//If we exited because of the Maximum limit being reached
-		if(ct == maxStates)
-			System.out.println("Maximum limit has been reached");
+		if(ct > maxStates)
+			throw new Exception("Maximum limit has been reached");
 		
 		BoardState destination = null;
 		if(finalized.contains("b12345678")) {
-			System.out.println("We solved the puzzle yay!");
 			for(int i = 0; i < myBoardList.size(); i++) {
 				if(myBoardList.get(i).myState.equals("b12345678"))
 					destination = myBoardList.get(i);
@@ -236,17 +313,22 @@ public class EightPuzzle {
 			destination = destination.parentState;
 		}
 		
+		int numMoves = 0;
 		//Printing out the path
 		while(!path.isEmpty()) {
 			printBoardState(path.pop().myState);
+			numMoves++;
 		}
+		
+		System.out.printf("We solved the puzzle in %d moves and considered %d nodes\n",numMoves,ct);
 		
 	}
 	
-	private void solveH2() {
+	private void solveH2() throws Exception {
 		//Initializing the variables
 		PriorityQueue<BoardState> pq = new PriorityQueue<BoardState>();		//Using the priority queue to find the lowest cost node
-		HashSet<String> finalized = new HashSet<String>();					//Keeping the set of finalized states
+		
+		HashSet<String> finalized = new HashSet<String>();					//K)eeping the set of finalized states
 		List<BoardState> myBoardList = new ArrayList<BoardState>();
 		
 		//Adding the source board state to the priority queue
@@ -254,7 +336,7 @@ public class EightPuzzle {
 		
 		int ct = 0;
 		//While the finalized set doesn't contain the goal state, the priority queue is not empty and the number of expanded nodes is less than the maxStates
-		while(!finalized.contains("b12345678") && !pq.isEmpty() && ct < maxStates) {
+		while(!finalized.contains("b12345678") && !pq.isEmpty() && ct <= maxStates) {
 			//Getting the lowest cost State
 			BoardState curr = pq.remove();
 			
@@ -282,12 +364,11 @@ public class EightPuzzle {
 		}
 		
 		//If we exited because of the Maximum limit being reached
-		if(ct == maxStates)
-			System.out.println("Maximum limit has been reached");
+		if(ct > maxStates)
+			throw new Exception("Maximum limit has been reached");
 		
 		BoardState destination = null;
 		if(finalized.contains("b12345678")) {
-			System.out.println("We solved the puzzle yay!\n");
 			for(int i = 0; i < myBoardList.size(); i++) {
 				if(myBoardList.get(i).myState.equals("b12345678"))
 					destination = myBoardList.get(i);
@@ -301,10 +382,16 @@ public class EightPuzzle {
 			destination = destination.parentState;
 		}
 		
+		int numMoves = 0;
 		//Printing out the path
 		while(!path.isEmpty()) {
 			printBoardState(path.pop().myState);
+			numMoves++;
 		}
+		
+		
+		System.out.printf("We solved the puzzle in %d moves and considered %d nodes\n",numMoves,ct);
+		
 	}
 	
 	
@@ -439,40 +526,6 @@ public class EightPuzzle {
 				return i;
 		}
 		return 0;
-	}
-	
-	//Method to read the commands from a text file
-	public void readCommands(String filepath) throws Exception {
-		//Creating the buffered reader object
-		BufferedReader br = new BufferedReader(new FileReader(new File(filepath)));
-		
-		String line;
-		
-		//Checking the commands and using the correct methods based with the correct arguments
-		while((line = br.readLine()) != null) {
-			if(line.substring(0, 8).equals("setState")) {
-				setState(line.substring(9));
-			}
-			else if(line.equals("printState")) {
-				printBoardState(state.myState);
-			}
-			else if(line.substring(0, 4).equals("move")) {
-				move(line.substring(5));
-			}
-			else if(line.substring(0,14).equals("randomizeState")) {
-				randomizeState(Integer.parseInt(line.substring(15)));
-			}
-			else if(line.substring(0, 12).equals("solve A-star")) {
-				solveAStar(line.substring(13));
-			}
-			else if(line.substring(0, 10).equals("solve beam")) {
-				solveBeam(Integer.parseInt(line.substring(11)));
-			}
-			else if(line.substring(0, 8).equals("maxNodes")) {
-				maxNodes(Integer.parseInt(line.substring(9)));
-			}
-		}
-		
 	}
 	
 	
