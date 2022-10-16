@@ -1,6 +1,7 @@
 # Artificial Intelligence
 ## Author: Rohan Singh
-This repository is for my personal AI projects. Source code is in both **Java (under the CSDS391 directory)** and **Python (under the AI directory)**, the code in both of these directories can be used as templates for other AI programs that implement these algorithms. 
+This repository is for my personal AI projects. Template source code is in both **Java (under the CSDS391 directory)** and **Python (under the AI directory)**, the code in both of these directories can be used as a foundation for other AI programs that implement these algorithms.   
+
 *Note:*The pyplot.py and GraphADT.py files are kept at the very beginning, because that code will be used in other algorithms and will be required a lot. 
 
 Other than the customizable templates for AI, there are also some projects that integrate these AI algorithms with real-applications, mostly games that are solved using AI algorithms.
