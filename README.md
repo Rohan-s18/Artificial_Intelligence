@@ -39,3 +39,8 @@ Content that I plan to put in this project:
     (A) Sequential Decision Making\
     (B) Reinforcement Learning\
     (C) Natural Language Processing 
+    
+
+You can contact me at:  
+rohan.b.singh54@gmail.com  
+rxs1182@case.edu  
