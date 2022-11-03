@@ -1,12 +1,10 @@
-package CSDS_391.Search.A_star;
-
-public class Uninformed{
+public class Graph{
     int[][] matrix; 
     String[] names;
     int numVertices;
     int size;
 
-    public Uninformed(){
+    public Graph(){
         matrix = new int[100][100];
         names = new String[100];
         size = 100;
@@ -94,29 +92,6 @@ public class Uninformed{
             names[i] = oldNames[i];
             for(int j = 0; j < oldSize; j++)
                 matrix[i][j] = oldMatrix[i][j];
-        }
-    }
-
-    public void DFSearch(String source, String destination){
-        int sourceIndex = indexOf(source);
-        int destinationIndex = indexOf(destination);
-        if(sourceIndex == -1 || destinationIndex == -1)
-            System.out.println("Invalid Inputs");
-        boolean[] visited = new boolean[numVertices];
-        DFSearchHelper(sourceIndex, destinationIndex, visited);
-    }
-
-    private void DFSearchHelper(int index, int destinationIndex, boolean[] visited){
-        if(index == destinationIndex){
-            System.out.printf("%s\n",names[index]);
-            visited[destinationIndex] = true;
-            return;
-        }
-        visited[index] = true;
-        System.out.printf("%s -> ",names[index]);
-        for(int i = 0; i < numVertices; i++){
-            if(matrix[index][i] != 0 && !visited[i] && !visited[destinationIndex])
-                DFSearchHelper(i, destinationIndex, visited);
         }
     }
 

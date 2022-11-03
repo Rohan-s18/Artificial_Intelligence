@@ -1,5 +1,3 @@
-package CSDS_391.Search.Optimization;
-
 import java.util.*;
 
 public class SimulatedAnnealing extends Graph {

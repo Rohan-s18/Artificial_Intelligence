@@ -1,5 +1,3 @@
-package CSDS_391.Search.Optimization;
-
 public class Demo {
     
     public static void main(String[] args) {
