@@ -34,3 +34,12 @@ def plotIris():
     mtp.xlabel("Petal Length")
     mtp.ylabel("Petal Width")
     mtp.show()
+    
+def eucDist(x1, x2, y1, y2):
+    return np.sqrt( (np.power((x2-x1),2)) + (np.power((y2-y1),2)) )
+
+def objFunction(mu, pos1, pos2):
+    return 0
+
+def calcKMeansIris(k):
+    return 0
