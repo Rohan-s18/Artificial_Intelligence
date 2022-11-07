@@ -17,6 +17,10 @@ import pandas as pd
 import random
 import plotly.graph_objects as go
 
+import plotly.io as pio
+#pio.renderers.default = 'svg'
+pio.renderers.default = 'browser'
+
 
 # Creating a dataset of length 100
 # 1: lime
@@ -253,14 +257,21 @@ fig.add_trace(go.Scatter(x = observations, y = h5_posterior, mode='lines', name=
 
 fig.show()
 
+#Finding the probability of the next candy being lime
+prediction = []
 
-#Plotting using matplotlib
-plt.plot(observations, h1_posterior, label = "p(h1|d)")
-plt.plot(observations, h2_posterior, label = "p(h2|d)")
-plt.plot(observations, h3_posterior, label = "p(h3|d)")
-plt.plot(observations, h4_posterior, label = "p(h4|d)")
-plt.plot(observations, h5_posterior, label = "p(h5|d)")
-plt.show()
+#P(X is lime) = P(lime|h1)P(h1|d) + ..... + P(lime|h5)P(h5|d)
+for i in range(0,100,1):
+    temp = 0.25*h2_posterior[i]
+    temp += 0.5*h3_posterior[i]
+    temp += 0.75*h4_posterior[i]
+    temp += 1*h5_posterior[i]
+    prediction.append(temp)
+    
+fig_pred = go.Figure()
+fig_pred.add_trace(go.Scatter(x = observations, y = prediction, mode='lines', name='p(Xn+1|dn)'))
+fig_pred.update_layout( title="Probability that the next one is lime", xaxis_title="Number of Observations", yaxis_title="Prediction Probability")
+fig_pred.show()
 
 
 

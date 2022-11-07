@@ -13,6 +13,10 @@ import plotly.express as px
 from math import comb
 import pandas as pd
 
+import plotly.io as pio
+#pio.renderers.default = 'svg'
+pio.renderers.default = 'browser'
+
 #Array Representing the possible values of 'y'
 y = [0,1,2,3,4]
 

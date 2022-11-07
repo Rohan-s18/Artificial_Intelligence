@@ -12,6 +12,10 @@ from math import comb
 import pandas as pd
 import numpy as np
 
+import plotly.io as pio
+#pio.renderers.default = 'svg'
+pio.renderers.default = 'browser'
+
 # First function: Posterior for: H
 # Second function: Posterior for: H,H
 # Third function: Posterior for: H,H,T
@@ -70,8 +74,10 @@ def fourthFunct():
     fig.show()
 
 
-
-
+firstFunct()
+secondFunct()
+thirdFunct()
+fourthFunct()
 
 
 
