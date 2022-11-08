@@ -21,24 +21,64 @@ import plotly.io as pio
 #pio.renderers.default = 'svg'
 pio.renderers.default = 'browser'
 
+import sys
+
 
 # Creating a dataset of length 100
 # 1: lime
 # 0: cherry
 
+seed = 5
+
+if(len(sys.argv) > 1):
+    seed = sys.argv[1]
+
 d = []
 observations = []
 d.append("-")
 
-random.seed(5)
+random.seed(seed)
 
 for i in range (0,100,1):
-    d.append(random.randint(0,1))
     observations.append(i)
+    
+def makeDataSet(hyp):
+    dataset = []
+    if(hyp == "h1"):
+        for i in range (0,100,1):
+            dataset.append(0)
+    elif(hyp == "h2"):
+        for i in range (0,75,1):
+            dataset.append(0)
+        for i in range (0,25,1):
+            dataset.append(1)
+    elif(hyp == "h3"):
+        for i in range (0,50,1):
+            dataset.append(0)
+        for i in range (0,50,1):
+            dataset.append(1)
+    elif(hyp == "h4"):
+        for i in range (0,75,1):
+            dataset.append(1)
+        for i in range (0,25,1):
+            dataset.append(0)
+    elif(hyp == "h5"):
+        for i in range (0,100,1):
+            dataset.append(1)
+    else:
+        return 
+    arr = np.array(dataset)
+    np.random.shuffle(arr)
+    dataset = arr.tolist()
+    ds = []
+    ds.append("-")
+    for i in range (0,100,1):
+        ds.append(dataset[i])
+    return ds
     
  
 #For h1
-def getH1():
+def getH1(candy):
     prior = 0.1 #given in the book
     cherry = 1  
     lime = 0
@@ -55,7 +95,7 @@ def getH1():
     h5_denom = 0.1
     
     for i in range (1,101,1):
-        if(d[i] == 0):                #Cherry
+        if(candy[i] == 0):                #Cherry
             numerator *= cherry
             h1_denom *= 1
             h2_denom *= 0.75
@@ -77,7 +117,7 @@ def getH1():
 
 
 #For h2
-def getH2():
+def getH2(candy):
     prior = 0.2 #given in the book
     cherry = 0.75
     lime = 0.25
@@ -94,7 +134,7 @@ def getH2():
     h5_denom = 0.1
     
     for i in range (1,101,1):
-        if(d[i] == 0):                #Cherry
+        if(candy[i] == 0):                #Cherry
             numerator *= cherry
             h1_denom *= 1
             h2_denom *= 0.75
@@ -117,7 +157,7 @@ def getH2():
 
 
 #For h3
-def getH3():
+def getH3(candy):
     prior = 0.4 #given in the book
     cherry = 0.5
     lime = 0.5
@@ -134,7 +174,7 @@ def getH3():
     h5_denom = 0.1
     
     for i in range (1,101,1):
-        if(d[i] == 0):                #Cherry
+        if(candy[i] == 0):                #Cherry
             numerator *= cherry
             h1_denom *= 1
             h2_denom *= 0.75
@@ -156,7 +196,7 @@ def getH3():
 
 
 #For h4
-def getH4():
+def getH4(candy):
     prior = 0.2 #given in the book
     cherry = 0.25
     lime = 0.75
@@ -173,7 +213,7 @@ def getH4():
     h5_denom = 0.1
     
     for i in range (1,101,1):
-        if(d[i] == 0):                #Cherry
+        if(candy[i] == 0):                #Cherry
             numerator *= cherry
             h1_denom *= 1
             h2_denom *= 0.75
@@ -195,7 +235,7 @@ def getH4():
 
 
 #For h5
-def getH5():
+def getH5(candy):
     prior = 0.1 #given in the book
     cherry = 0
     lime = 1
@@ -212,7 +252,7 @@ def getH5():
     h5_denom = 0.1
     
     for i in range (1,101,1):
-        if(d[i] == 0):                #Cherry
+        if(candy[i] == 0):                #Cherry
             numerator *= cherry
             h1_denom *= 1
             h2_denom *= 0.75
@@ -233,43 +273,52 @@ def getH5():
     return h5_posterior
 
 
+#Finding the probability of the next candy being lime
+def getNextPrediction(h2_p, h3_p, h4_p, h5_p):
+    prediction = []
 
-h1_posterior = getH1()
-h2_posterior = getH2()
-h3_posterior = getH3()
-h4_posterior = getH4()
-h5_posterior = getH5()
+    #P(X is lime) = P(lime|h1)P(h1|d) + ..... + P(lime|h5)P(h5|d)
+    for i in range(0,100,1):
+        temp = 0.25*h2_p[i]
+        temp += 0.5*h3_p[i]
+        temp += 0.75*h4_p[i]
+        temp += 1*h5_p[i]
+        prediction.append(temp)
+    return prediction
 
+
+temp = makeDataSet("h4")
+
+h1_p = getH1(temp)
+h2_p = getH2(temp)
+h3_p = getH3(temp)
+h4_p = getH4(temp)
+h5_p = getH5(temp)
+
+"""
 #Creating the Dataframes for the hypothesis
-df_1 = pd.DataFrame((list(zip(d,h1_posterior))),columns=["Data","Posterior for h1"])
-df_2 = pd.DataFrame((list(zip(d,h2_posterior))),columns=["Data","Posterior for h2"])
-df_3 = pd.DataFrame((list(zip(d,h3_posterior))),columns=["Data","Posterior for h3"])
-df_4 = pd.DataFrame((list(zip(d,h4_posterior))),columns=["Data","Posterior for h4"])
-df_5 = pd.DataFrame((list(zip(d,h5_posterior))),columns=["Data","Posterior for h5"])
+df_1 = pd.DataFrame((list(zip(temp,h1_p))),columns=["Data","Posterior for h1"])
+df_2 = pd.DataFrame((list(zip(temp,h2_p))),columns=["Data","Posterior for h2"])
+df_3 = pd.DataFrame((list(zip(temp,h3_p))),columns=["Data","Posterior for h3"])
+df_4 = pd.DataFrame((list(zip(temp,h4_p))),columns=["Data","Posterior for h4"])
+df_5 = pd.DataFrame((list(zip(temp,h5_p))),columns=["Data","Posterior for h5"])
+"""
 
 #Plotting the posteriors
 fig = go.Figure()
-fig.add_trace(go.Scatter(x = observations, y = h1_posterior, mode='lines', name='p(h1|d)'))
-fig.add_trace(go.Scatter(x = observations, y = h2_posterior, mode='lines', name='p(h2|d)'))
-fig.add_trace(go.Scatter(x = observations, y = h3_posterior, mode='lines', name='p(h3|d)'))
-fig.add_trace(go.Scatter(x = observations, y = h4_posterior, mode='lines', name='p(h4|d)'))
-fig.add_trace(go.Scatter(x = observations, y = h5_posterior, mode='lines', name='p(h5|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h1_p, mode='lines', name='p(h1|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h2_p, mode='lines', name='p(h2|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h3_p, mode='lines', name='p(h3|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h4_p, mode='lines', name='p(h4|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h5_p, mode='lines', name='p(h5|d)'))
 
 fig.show()
 
-#Finding the probability of the next candy being lime
-prediction = []
 
-#P(X is lime) = P(lime|h1)P(h1|d) + ..... + P(lime|h5)P(h5|d)
-for i in range(0,100,1):
-    temp = 0.25*h2_posterior[i]
-    temp += 0.5*h3_posterior[i]
-    temp += 0.75*h4_posterior[i]
-    temp += 1*h5_posterior[i]
-    prediction.append(temp)
+pred = getNextPrediction(h2_p, h3_p, h4_p, h5_p)
     
 fig_pred = go.Figure()
-fig_pred.add_trace(go.Scatter(x = observations, y = prediction, mode='lines', name='p(Xn+1|dn)'))
+fig_pred.add_trace(go.Scatter(x = observations, y = pred, mode='lines', name='p(Xn+1|dn)'))
 fig_pred.update_layout( title="Probability that the next one is lime", xaxis_title="Number of Observations", yaxis_title="Prediction Probability")
 fig_pred.show()
 
