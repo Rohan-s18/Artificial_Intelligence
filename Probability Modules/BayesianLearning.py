@@ -287,22 +287,14 @@ def getNextPrediction(h2_p, h3_p, h4_p, h5_p):
     return prediction
 
 
-temp = makeDataSet("h4")
+#For H1 Observations
+temp = makeDataSet("h1")
 
 h1_p = getH1(temp)
 h2_p = getH2(temp)
 h3_p = getH3(temp)
 h4_p = getH4(temp)
 h5_p = getH5(temp)
-
-"""
-#Creating the Dataframes for the hypothesis
-df_1 = pd.DataFrame((list(zip(temp,h1_p))),columns=["Data","Posterior for h1"])
-df_2 = pd.DataFrame((list(zip(temp,h2_p))),columns=["Data","Posterior for h2"])
-df_3 = pd.DataFrame((list(zip(temp,h3_p))),columns=["Data","Posterior for h3"])
-df_4 = pd.DataFrame((list(zip(temp,h4_p))),columns=["Data","Posterior for h4"])
-df_5 = pd.DataFrame((list(zip(temp,h5_p))),columns=["Data","Posterior for h5"])
-"""
 
 #Plotting the posteriors
 fig = go.Figure()
@@ -311,7 +303,7 @@ fig.add_trace(go.Scatter(x = observations, y = h2_p, mode='lines', name='p(h2|d)
 fig.add_trace(go.Scatter(x = observations, y = h3_p, mode='lines', name='p(h3|d)'))
 fig.add_trace(go.Scatter(x = observations, y = h4_p, mode='lines', name='p(h4|d)'))
 fig.add_trace(go.Scatter(x = observations, y = h5_p, mode='lines', name='p(h5|d)'))
-
+fig.update_layout( title="Posterior Probability when the observations are from H1", xaxis_title="Number of Observations", yaxis_title="Posterior Probability for the Hypotheses")
 fig.show()
 
 
@@ -319,7 +311,115 @@ pred = getNextPrediction(h2_p, h3_p, h4_p, h5_p)
     
 fig_pred = go.Figure()
 fig_pred.add_trace(go.Scatter(x = observations, y = pred, mode='lines', name='p(Xn+1|dn)'))
-fig_pred.update_layout( title="Probability that the next one is lime", xaxis_title="Number of Observations", yaxis_title="Prediction Probability")
+fig_pred.update_layout( title="Probability that the next one is lime for H1 observations", xaxis_title="Number of Observations", yaxis_title="Prediction Probability")
+fig_pred.show()
+
+#For H2 Observations
+temp = makeDataSet("h2")
+
+h1_p = getH1(temp)
+h2_p = getH2(temp)
+h3_p = getH3(temp)
+h4_p = getH4(temp)
+h5_p = getH5(temp)
+
+#Plotting the posteriors
+fig = go.Figure()
+fig.add_trace(go.Scatter(x = observations, y = h1_p, mode='lines', name='p(h1|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h2_p, mode='lines', name='p(h2|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h3_p, mode='lines', name='p(h3|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h4_p, mode='lines', name='p(h4|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h5_p, mode='lines', name='p(h5|d)'))
+fig.update_layout( title="Posterior Probability when the observations are from H2", xaxis_title="Number of Observations", yaxis_title="Posterior Probability for the Hypotheses")
+fig.show()
+
+
+pred = getNextPrediction(h2_p, h3_p, h4_p, h5_p)
+    
+fig_pred = go.Figure()
+fig_pred.add_trace(go.Scatter(x = observations, y = pred, mode='lines', name='p(Xn+1|dn)'))
+fig_pred.update_layout( title="Probability that the next one is lime for H2 observations", xaxis_title="Number of Observations", yaxis_title="Prediction Probability")
+fig_pred.show()
+
+#For H1 Observations
+temp = makeDataSet("h3")
+
+h1_p = getH1(temp)
+h2_p = getH2(temp)
+h3_p = getH3(temp)
+h4_p = getH4(temp)
+h5_p = getH5(temp)
+
+#Plotting the posteriors
+fig = go.Figure()
+fig.add_trace(go.Scatter(x = observations, y = h1_p, mode='lines', name='p(h1|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h2_p, mode='lines', name='p(h2|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h3_p, mode='lines', name='p(h3|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h4_p, mode='lines', name='p(h4|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h5_p, mode='lines', name='p(h5|d)'))
+fig.update_layout( title="Posterior Probability when the observations are from H3", xaxis_title="Number of Observations", yaxis_title="Posterior Probability for the Hypotheses")
+fig.show()
+
+
+pred = getNextPrediction(h2_p, h3_p, h4_p, h5_p)
+    
+fig_pred = go.Figure()
+fig_pred.add_trace(go.Scatter(x = observations, y = pred, mode='lines', name='p(Xn+1|dn)'))
+fig_pred.update_layout( title="Probability that the next one is lime for H3 observations", xaxis_title="Number of Observations", yaxis_title="Prediction Probability")
+fig_pred.show()
+
+#For H4 Observations
+temp = makeDataSet("h4")
+
+h1_p = getH1(temp)
+h2_p = getH2(temp)
+h3_p = getH3(temp)
+h4_p = getH4(temp)
+h5_p = getH5(temp)
+
+#Plotting the posteriors
+fig = go.Figure()
+fig.add_trace(go.Scatter(x = observations, y = h1_p, mode='lines', name='p(h1|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h2_p, mode='lines', name='p(h2|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h3_p, mode='lines', name='p(h3|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h4_p, mode='lines', name='p(h4|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h5_p, mode='lines', name='p(h5|d)'))
+fig.update_layout( title="Posterior Probability when the observations are from H4", xaxis_title="Number of Observations", yaxis_title="Posterior Probability for the Hypotheses")
+fig.show()
+
+
+pred = getNextPrediction(h2_p, h3_p, h4_p, h5_p)
+    
+fig_pred = go.Figure()
+fig_pred.add_trace(go.Scatter(x = observations, y = pred, mode='lines', name='p(Xn+1|dn)'))
+fig_pred.update_layout( title="Probability that the next one is lime for H4 observations", xaxis_title="Number of Observations", yaxis_title="Prediction Probability")
+fig_pred.show()
+
+#For H5 Observations
+temp = makeDataSet("h5")
+
+h1_p = getH1(temp)
+h2_p = getH2(temp)
+h3_p = getH3(temp)
+h4_p = getH4(temp)
+h5_p = getH5(temp)
+
+#Plotting the posteriors
+fig = go.Figure()
+fig.add_trace(go.Scatter(x = observations, y = h1_p, mode='lines', name='p(h1|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h2_p, mode='lines', name='p(h2|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h3_p, mode='lines', name='p(h3|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h4_p, mode='lines', name='p(h4|d)'))
+fig.add_trace(go.Scatter(x = observations, y = h5_p, mode='lines', name='p(h5|d)'))
+fig.update_layout( title="Posterior Probability when the observations are from H5", xaxis_title="Number of Observations", yaxis_title="Posterior Probability for the Hypotheses")
+fig.show()
+
+
+pred = getNextPrediction(h2_p, h3_p, h4_p, h5_p)
+    
+fig_pred = go.Figure()
+fig_pred.add_trace(go.Scatter(x = observations, y = pred, mode='lines', name='p(Xn+1|dn)'))
+fig_pred.update_layout( title="Probability that the next one is lime for H5 observations", xaxis_title="Number of Observations", yaxis_title="Prediction Probability")
 fig_pred.show()
 
 
