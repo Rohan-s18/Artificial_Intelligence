@@ -27,7 +27,7 @@ Other than the customizable templates for AI, there are also some projects that 
     
 ## AI Help Directories:
 1) **AI-prereq:** The AI-prereq directory doesn't contain any AI-based alorithms, but just the basic stuff that people should know before they dive into the rest of the code. This includes a basics of python (pyplot) as well as Graph data structures. If you have experience in Python and Data Structures/Algorithms, you won't face any problem here.  
-2) **Probability Modules:** This directory can be used to refresh yourself with Probability and includes python source code that implement different things in probability, like Bernoulli's Trials, probabilstic classification etcetera.  
+2) **Probability Modules:** This directory can be used to refresh yourself with Probability and includes python source code that implement different things in probability, like Bernoulli's Trials, Probabilstic Classification and Bayesian Learning.  
     
 
 You can contact me at:  
