@@ -15,21 +15,11 @@ import pandas as pd
 import matplotlib.pyplot as mtp
 
 #this is used to get the iris data
-from sklearn import datasets
-
-
-def getData():
-    # Importing the iris data set
-    iris = datasets.load_iris()
-    
-    # Extracting the data for petal length and width
-    X = iris.data[:, 2:]
-    return X
+df = pd.read_csv("/Users/rohansingh/Documents/CSDS 391/AI_Code/Machine Learning/Classification/irisdata.csv")
 
 def plotIris():
-    iris = datasets.load_iris()
-    X = iris.data[:, 2:]
-    y = iris.target
+    X = df.data[:, 3:]
+    y = df.target
     mtp.scatter(X[:, 0],X[:, 1],c=y)
     mtp.xlabel("Petal Length")
     mtp.ylabel("Petal Width")
