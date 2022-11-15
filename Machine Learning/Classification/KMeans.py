@@ -71,9 +71,10 @@ class KMeans:
             
         return points
     
-    #Helper function for KMeans
+    #Helper function for KMeans Objective Function
     def objectiveFunction(self,classes,centroids,points):
         #Iterating through all of the points
+        val = 0
         for i in range(0,len(points),1):
             cl = -1
             dist = 1000000
@@ -82,9 +83,35 @@ class KMeans:
                 if(temp < dist):
                     dist = temp
                     cl = j
-            classes[j].append(points[i])
-        
+            classes[cl].append(points[i])
+            val += dist
         return classes
+    
+    
+    #Helper function for the update rule for KMeans
+    def updateCentroids(self,centroids, classes):
+        #updating the coordinates of the centroids for each class
+        new_centroids = []
+        for i in range(0,self.k,1):
+            tempclass = classes[i]
+            s_len_sum = 0
+            s_wid_sum = 0
+            p_len_sum = 0
+            p_wid_sum = 0
+            for j in range(0,len(tempclass),1):
+                point = tempclass[j]
+                s_len_sum += point[0]
+                s_wid_sum += point[1]
+                p_len_sum += point[2]
+                p_wid_sum += point[3]
+            cl = []
+            cl.append(s_len_sum/len(tempclass))
+            cl.append(s_wid_sum/len(tempclass))
+            cl.append(p_len_sum/len(tempclass))
+            cl.append(p_wid_sum/len(tempclass))
+            new_centroids.append(cl)
+            
+        return new_centroids
     
     def predict(self):
         
@@ -98,11 +125,35 @@ class KMeans:
             ls.append(points[i])
             classes.append(ls)
             
-        classes = self.objectiveFunction(classes,centroids,points)
+        
+        for i in range(0,self.max_iter,1):
+            #Getting the clusters
+            classes = self.objectiveFunction(classes,centroids,points)
+            
+            #Updating the value of the centroids using the update function
+            new_centroids = self.updateCentroids(centroids,classes)
+            
+            #Checking if we have reached the optimal position
+            opt = True
+            
+            for j in range(0,self.k,1):
+                a = centroids[j]
+                b = new_centroids[j]
+                if(abs((a-b)/b) > 0.0001):
+                    opt = False
+            
+            if(opt):
+                break
+            
+            centroids = new_centroids
+            
         
         return classes
         
         
+    
+    
+    
     
     
     
