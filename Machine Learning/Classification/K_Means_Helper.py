@@ -64,3 +64,25 @@ def objectiveFunction(centroids,clusters):
         val += x
         
 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+

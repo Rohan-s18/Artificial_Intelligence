@@ -31,5 +31,85 @@ def eucDist(x1, x2, y1, y2):
 def objFunction(mu, pos1, pos2):
     return 0
 
-def calcKMeansIris(k):
-    return 0
+
+
+class KMeans:
+    
+    def __init__(self, k=3, max_iter=100,df=pd.read_csv("/Users/rohansingh/Documents/CSDS 391/AI_Code/Machine Learning/Classification/irisdata.csv")):
+        self.k = k
+        self.max_iter=max_iter
+        self.df = df
+        
+    def euc_dist(point, centroid):
+        dist_sum = 0
+        dist_sum += np.power((point[0]-centroid[0]),2)
+        dist_sum += np.power((point[1]-centroid[1]),2)
+        dist_sum += np.power((point[2]-centroid[2]),2)
+        dist_sum += np.power((point[3]-centroid[3]),2)
+        return np.sqrt(dist_sum)
+    
+    #Pre-processing the data for convenience
+    def getPoints(self):
+        s_len = self.df["sepal_length"]
+        s_wid = self.df["sepal_width"]
+        p_len = self.df["petal_length"]
+        p_wid = self.df["petal_width"]
+        
+        s_len = s_len.to_numpy()
+        s_wid = s_wid.to_numpy()
+        p_len = p_len.to_numpy()
+        p_wid = p_wid.to_numpy()
+        
+        points = []
+        for i in range(0,len(s_len),1):
+            row = []
+            row.append(s_len[i])
+            row.append(s_wid[i])
+            row.append(p_len[i])
+            row.append(p_wid[i])
+            points.append(row)
+            
+        return points
+    
+    #Helper function for KMeans
+    def objectiveFunction(self,classes,centroids,points):
+        #Iterating through all of the points
+        for i in range(0,len(points),1):
+            cl = -1
+            dist = 1000000
+            for j in range(0,len(centroids),1):
+                temp = self.euc_dist(points[i],centroids[j])
+                if(temp < dist):
+                    dist = temp
+                    cl = j
+            classes[j].append(points[i])
+        
+        return classes
+    
+    def predict(self):
+        
+        points = self.getPoints()
+        centroids = []
+        classes = []
+        
+        for i in range(0,self.k,1):
+            centroids.append(points[i])
+            ls = []
+            ls.append(points[i])
+            classes.append(ls)
+            
+        classes = self.objectiveFunction(classes,centroids,points)
+        
+        return classes
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
