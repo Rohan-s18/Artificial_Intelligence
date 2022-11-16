@@ -61,6 +61,7 @@ class KMeans:
         p_wid = p_wid.to_numpy()
         
         points = []
+        species = []
         for i in range(0,len(s_len),1):
             row = []
             row.append(s_len[i])
@@ -68,11 +69,12 @@ class KMeans:
             row.append(p_len[i])
             row.append(p_wid[i])
             points.append(row)
+            species.append(-1)
             
-        return points
+        return points,species
     
     #Helper function for KMeans Objective Function
-    def objectiveFunction(self,classes,centroids,points):
+    def objectiveFunction(self,classes,centroids,points,species):
         #Iterating through all of the points
         val = 0
         for i in range(0,len(points),1):
@@ -84,8 +86,9 @@ class KMeans:
                     dist = temp
                     cl = j
             classes[cl].append(points[i])
+            species[i] = cl
             val += dist
-        return classes
+        return classes,species
     
     
     #Helper function for the update rule for KMeans
@@ -115,7 +118,7 @@ class KMeans:
     
     def predict(self):
         
-        points = self.getPoints()
+        points,species = self.getPoints()
         centroids = []
         classes = []
         
@@ -128,7 +131,7 @@ class KMeans:
         
         for i in range(0,self.max_iter,1):
             #Getting the clusters
-            classes = self.objectiveFunction(classes,centroids,points)
+            classes,species = self.objectiveFunction(classes,centroids,points,species)
             
             #Updating the value of the centroids using the update function
             new_centroids = self.updateCentroids(centroids,classes)
