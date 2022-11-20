@@ -56,6 +56,9 @@ def misclassifiction_count(test, predicted_vals):
         
     return ct
 
+#%%
+#This method will get the linear decision boundary
+
 
 #%%
 #Main method of the module
@@ -97,6 +100,31 @@ def main():
     #Plotting the scatterplot using plotly
     fig = px.scatter(df, x="petal_length",y="petal_width",color=_class)
     fig.show()
+    
+    
+    #Plotting the decision boundary
+    
+    #Getting the inctercept and the slope
+    c = -(b/w[1])
+    m = -(w[0]/w[1])
+    
+    #Making the arrays for the x and y axes
+    xd = np.array([2.5,7])
+    yd = m*xd + c
+    
+    fig_1 = go.Figure()
+    fig_1.add_trace(
+                go.Scatter(x=df["petal_length"], y=df["petal_width"],
+                mode='markers',
+                name='points',
+                marker = {'color':_class}
+                ))
+    fig_1.add_trace(go.Scatter(x=xd, y=yd,
+                mode='lines',
+                name='decision boundary'))
+    fig_1.show()
+    
+    
     
     
     
