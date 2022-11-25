@@ -75,6 +75,34 @@ def calculate_MSE(data,weights,bias,target):
     return mse
 
 #%%
+#This method will plot the linear decision boundary
+def plot_Linear_db(df,data,w,b):
+    #Plotting the decision boundary
+
+    #Getting the inctercept and the slope
+    c = -(b/w[1])
+    m = -(w[0]/w[1])
+    
+    #Making the arrays for the x and y axes
+    xd = np.array([2.5,7])
+    yd = m*xd + c
+    
+    #Getting the classes
+    _class = predict(data,w,b)
+    
+    fig_1 = go.Figure()
+    fig_1.add_trace(
+                go.Scatter(x=df["petal_length"], y=df["petal_width"],
+                mode='markers',
+                name='points',
+                marker = {'color':_class}
+                ))
+    fig_1.add_trace(go.Scatter(x=xd, y=yd,
+                mode='lines',
+                name='decision boundary'))
+    fig_1.show()
+
+#%%
 
 #The main method will be used to calculate the mean squared error
 def main():
@@ -117,6 +145,12 @@ def main():
     print("Optimal MSE: ",optimum_mse)
     print("Random MSE: ",rand_mse)
     print("Close MSE: ",close_mse)
+    
+    #Plotting the linear decision boundary for small error parameters
+    plot_Linear_db(df, vals, close_w, close_b)
+    
+    #Plotting the linear decision boundary for large error parameters
+    plot_Linear_db(df, vals, rand_w, rand_b)
     
     
     
