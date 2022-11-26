@@ -133,6 +133,28 @@ def change_in_db(df,init_w,init_b,data,target,step_size,num_iter):
 def main():
     #print("Hello World!")
     
+    #Getting the dataframe from the csv
+    df = pd.read_csv("/Users/rohansingh/Documents/CSDS 391/AI_Code/Machine Learning/Classification/irisdata.csv")
+ 
+    #Extracting the 2nd and 3rd classes from the data frame
+    df = df[df["species"] != "setosa"]
+    vals = df.iloc[:,2:4]
+    target = df.iloc[:,-1]
+ 
+    vals = vals.to_numpy()
+    target = target.to_numpy()
+ 
+    #Changing species from names to binary values 
+    temp = []
+    for i in range (0,len(target),1):
+        if(target[i] == "versicolor"):
+            temp.append(0)
+        else:
+            temp.append(1)
+    target = np.array(temp) 
+    
+    #Getting the change in the linear decision boundary using the function
+    change_in_db(df,np.array([0.0,0.0]),0,vals,target,0.0001,100)
     
 
 #%%
