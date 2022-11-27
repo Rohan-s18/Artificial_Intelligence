@@ -51,7 +51,7 @@ def predict(X,weights,bias):
 
 
 #This method will plot the linear decision boundary
-def get_Linear_db(df,w,b,_class):
+def get_Linear_db(df,w,b,_class, plot_title):
     #Plotting the decision boundary
     
     #Getting the inctercept and the slope
@@ -72,6 +72,7 @@ def get_Linear_db(df,w,b,_class):
     fig_1.add_trace(go.Scatter(x=xd, y=yd,
                 mode='lines',
                 name='decision boundary'))
+    fig_1.update_layout(title = plot_title, xaxis_title = "Petal Length", yaxis_title = "Petal Width")
     fig_1.show()
     
 #Function that calculates the summed gradient
@@ -152,16 +153,25 @@ def gradeient_descent(init_w ,init_b ,data ,target ,eps, max_iter):
     b = init_b
     error_list = []
     
+    w_middle = np.array([0.0,0.0])
+    b_middle = 0
+    
+    w_list = []
+    b_list = []
+    
     for i in range(0,max_iter,1):
         #Getting the predicted class
         pred = predict(data,w,b)
+        
+        w_list.append(w)
+        b_list.append(b)
         
         #Getting the mean sqaured error
         temp_mse = calculate_MSE(pred, target)
         error_list.append(temp_mse)
         
         #Leaving if the mean sqaured error is less than 10
-        if(temp_mse < 10):
+        if(temp_mse < 5):
             break
         
         #Getting the gradients
@@ -172,11 +182,11 @@ def gradeient_descent(init_w ,init_b ,data ,target ,eps, max_iter):
         b -= eps*bias_grad        
         
         
-    return w, b, error_list
+    return w, b, w_list[int(len(w_list)/2)], b_list[int(len(b_list)/2)], error_list
 
 
 #Function for plotting the error function
-def plot_objective(error_list):
+def plot_learningcurve(error_list):
     #Getting the x axis
     x = []
     for i in range(0,len(error_list),1):
@@ -186,6 +196,12 @@ def plot_objective(error_list):
     temp_df = pd.DataFrame(list(zip(x, error_list)), columns =['x', 'y'])  
     fig = px.line(temp_df, x="x", y="y", title="Error Reduction") 
     fig.show()
+    
+#Function to get random weights and bias
+def get_random_parameters(l_w, u_w, l_b,u_b):
+    w = np.array([random.uniform(l_w, u_w),random.uniform(l_w, u_w)])
+    b = random.uniform(l_b,u_b)
+    return w,b
     
 
 #%%
@@ -215,16 +231,28 @@ def main():
             temp.append(1)
     target = np.array(temp) 
     
+    #Getting the initial weights and bias terms using the random generator helper function
+    init_w, init_b = get_random_parameters(-1, 1, -1, 1)
     
-    #Using the gradient descent to get the optimal weights and bias (as well as error list)
-    weights, bias, error_list = gradeient_descent(np.array([0.0,0.0]), 0.0, vals, target, 0.01, 1000)
+    #Using the gradient descent to get the optimal weights and bias (as well as error list) as well as the intermediate parameter
+    weights, bias, intermediate_weighs, intermediate_bias, error_list = gradeient_descent(init_w, init_b, vals, target, 0.01, 1000)
     
-    #Plotting the objective function
-    plot_objective(error_list)
+    #Plotting the learning curve
+    plot_learningcurve(error_list)
+    
+    #Plotting the linear decision boundary for the initial weights and bias
+    _class = predict(vals, init_w, init_b)
+    get_Linear_db(df, init_w, init_b, _class,"Initial Paramters")    
+    
+    #Plotting the linear decision boundary for the intermediate weights and bias
+    _class = predict(vals, intermediate_weighs, intermediate_bias)
+    get_Linear_db(df, intermediate_weighs, intermediate_bias, _class,"Intermediate Parameters")
     
     #Plotting the linear decision boundary of the optimum weights and bias
     _class = predict(vals, weights, bias)
-    get_Linear_db(df, weights, bias, _class)
+    get_Linear_db(df, weights, bias, _class,"Optimum Parameters")
+    
+    
     
     print(weights)
     print(bias)
