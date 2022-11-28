@@ -11,26 +11,16 @@ Created on Thu Nov  3 10:20:04 2022
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as mtp
+import random
+import plotly.express as px
+import plotly.io as pio
+
+pio.renderers.default = 'browser'
 
 #this is used to get the iris data
 df = pd.read_csv("/Users/rohansingh/Documents/CSDS 391/AI_Code/Machine Learning/Classification/irisdata.csv")
 
-def plotIris():
-    X = df.data[:, 3:]
-    y = df.target
-    mtp.scatter(X[:, 0],X[:, 1],c=y)
-    mtp.xlabel("Petal Length")
-    mtp.ylabel("Petal Width")
-    mtp.show()
-    
-def eucDist(x1, x2, y1, y2):
-    return np.sqrt( (np.power((x2-x1),2)) + (np.power((y2-y1),2)) )
-
-def objFunction(mu, pos1, pos2):
-    return 0
-
-
-
+#Code for KMeans class
 class KMeans:
     
     def __init__(self, k=3, max_iter=100,df=pd.read_csv("/Users/rohansingh/Documents/CSDS 391/AI_Code/Machine Learning/Classification/irisdata.csv")):
@@ -38,6 +28,7 @@ class KMeans:
         self.max_iter=max_iter
         self.df = df
         
+    #Helper function to get the euclidean distance
     def euc_dist(self,point, centroid):
         dist_sum = 0
         dist_sum += np.power((point[0]-centroid[0]),2)
@@ -73,11 +64,14 @@ class KMeans:
     
     #Helper function for KMeans Objective Function
     def objectiveFunction(self,classes,centroids,points,species):
+        #This will hold the sum of the objective function value
+        val = 0            
+
         #Iterating through all of the points
-        val = 0
         for i in range(0,len(points),1):
             cl = -1
             dist = 1000000
+            #Finding the closest centroid for the j-th point
             for j in range(0,len(centroids),1):
                 temp = self.euc_dist(points[i],centroids[j])
                 if(temp < dist):
@@ -85,14 +79,17 @@ class KMeans:
                     cl = j
             classes[cl].append(points[i])
             species[i] = cl
+            #Adding the closest distance to the value
             val += dist
-        return classes,species
+        return classes,species,val
     
     
     #Helper function for the update rule for KMeans
     def updateCentroids(self,centroids, classes):
         #updating the coordinates of the centroids for each class
         new_centroids = []
+
+        #This is done by taking the mean of each cluster
         for i in range(0,self.k,1):
             tempclass = classes[i]
             s_len_sum = 0
@@ -114,23 +111,29 @@ class KMeans:
             
         return new_centroids
     
+    #Function to predict/classify the points into clusters
     def predict(self):
         
         points,species = self.getPoints()
         centroids = []
         classes = []
         
+        #Setting the centroids to a random 'k' points
+        centroids = random.sample(points,k=self.k)
+
         for i in range(0,self.k,1):
-            centroids.append(points[i])
             ls = []
             ls.append(points[i])
             classes.append(ls)
             
         
+        objective_function_vals = []
         for i in range(0,self.max_iter,1):
             #Getting the clusters
-            classes,species = self.objectiveFunction(classes,centroids,points,species)
+            classes,species,func_val = self.objectiveFunction(classes,centroids,points,species)
             
+            objective_function_vals.append(func_val)
+
             #Updating the value of the centroids using the update function
             new_centroids = self.updateCentroids(centroids,classes)
             
@@ -152,7 +155,45 @@ class KMeans:
             centroids = new_centroids
             
         
-        return classes
+        return classes,objective_function_vals
+
+    #This function will plot the minimization fo the objective function
+    def plot_obj_function(self,vals):
+        x_axis = []
+        for i in range(0,len(vals),1):
+            x_axis.append(i)
+
+        #Converting it into a dataframe
+        temp_df = pd.DataFrame(list(zip(x_axis,vals)),columns=["Iteration","Objective Function Value"])
+
+        #Plotting the graph
+        fig = px.line(temp_df, x="Iteration", y="Objective Function Value", title="Reduction in objective function value")
+        fig.show()
+
+
+#%%
+def main():
+    print("Hello World!")
+    Temp = KMeans(k=3)
+
+    #Getting the classes for ND_Kmeans (a)
+    _classes, vals = Temp.predict()
+
+    #Plotting the reduction in the objective function (b)
+    Temp.plot_obj_function(vals)
+
+
+
+
+
+
+
+
+#%%
+if __name__ == "__main__":
+    main()
+
+#%%
         
         
     
