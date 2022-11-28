@@ -27,6 +27,7 @@ Other than the customizable templates for AI, there are also some projects that 
 2) **Iris species classifier:** Source Code for classifying the *species of Iris flowers* given their petal/sepal dimensions. The Source Code is in Python and it includes:  
     - **Unsupervised Learning:** Used KMeans clustering to find the Iris species.  
     - **Neural Network:** Developoed a Neural Network to classify the species of Iris using logistic regression and optimized the neural network weights using gradient descent.  
+    - **Multi Layer Perceptron:** This is not home-made code, but rather using Scikit-learn's Multi-Layer Perceptron to classify the different iris classes.  
     
 ## AI Help Directories:
 1) **AI-prereq:** The AI-prereq directory doesn't contain any AI-based alorithms, but just the basic stuff that people should know before they dive into the rest of the code. This includes a basics of python (pyplot) as well as Graph data structures. If you have experience in Python and Data Structures/Algorithms, you won't face any problem here.  
