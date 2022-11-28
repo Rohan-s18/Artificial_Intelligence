@@ -12,10 +12,10 @@ Other than the customizable templates for AI, there are also some projects that 
     - **Search for Optimization:** This Hill Climb Search, Simulated Annealing and beam with k states.   
     
 2) **Machine Learning: (In-progress)**    
-    - **Clustering:**  Classifcation on Iris Dataset using KMeans.  
-    - **Linear decision boundaries**  
-    - **Neural Networks**  
-    - **Learning Decision Boundaries using Optimization**  
+    - **Clustering:**  Classifcation of data using KMeans clustering (unsupervised).  
+    - **Linear decision boundaries using a neural network:** Classification of data using Logistic Regression.    
+    - **Neural Network Error:** Calculating error and gradient for a given neural network.  
+    - **Neural Network Optimization:** Updating Neural network decision boundares using gradient descent optimization.   
   
 3) **Decision Making under uncertainity and NLP:** *Not implemented yet*  
     - Sequential Decision Making  
@@ -23,7 +23,10 @@ Other than the customizable templates for AI, there are also some projects that 
     - Natural Language Processing    
     
 ## AI-based Implementations:  
-1) **Eight puzzle solver**: Source Code for an *Eight-Puzzle* solving algorithm. The source code includes both the game (which someone could play) as well as the solving algorithm. This was achieved using both A* search algorithm as well as k-states beam search. Source code is in Java.  
+1) **Eight puzzle solver:** Source Code for an *Eight-Puzzle* solving algorithm. The source code includes both the game (which someone could play) as well as the solving algorithm. This was achieved using both A* search algorithm as well as k-states beam search. Source code is in Java.    
+2) **Iris species classifier:** Source Code for classifying the *species of Iris flowers* given their petal/sepal dimensions. The Source Code is in Python and it includes:  
+    - **Unsupervised Learning:** Used KMeans clustering to find the Iris species.  
+    - **Neural Network:** Developoed a Neural Network to classify the species of Iris using logistic regression and optimized the neural network weights using gradient descent.  
     
 ## AI Help Directories:
 1) **AI-prereq:** The AI-prereq directory doesn't contain any AI-based alorithms, but just the basic stuff that people should know before they dive into the rest of the code. This includes a basics of python (pyplot) as well as Graph data structures. If you have experience in Python and Data Structures/Algorithms, you won't face any problem here.  
