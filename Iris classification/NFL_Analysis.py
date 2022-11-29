@@ -57,12 +57,12 @@ def get_Linear_db(df,w,b,_class, plot_title):
     m = -(w[0]/w[1])
     
     #Making the arrays for the x and y axes
-    xd = np.array([2.5,7])
+    xd = np.array([0,11])
     yd = m*xd + c
     
     fig_1 = go.Figure()
     fig_1.add_trace(
-                go.Scatter(x=df["petal_length"], y=df["petal_width"],
+                go.Scatter(x=df["Air Yards per Attempt"], y=df["Passer Rating"],
                 mode='markers',
                 name='points',
                 marker = {'color':_class}
@@ -70,7 +70,7 @@ def get_Linear_db(df,w,b,_class, plot_title):
     fig_1.add_trace(go.Scatter(x=xd, y=yd,
                 mode='lines',
                 name='decision boundary'))
-    fig_1.update_layout(title = plot_title, xaxis_title = "Petal Length", yaxis_title = "Petal Width")
+    fig_1.update_layout(title = plot_title, xaxis_title = "Air Yards per Attempt", yaxis_title = "Passer Rating")
     fig_1.show()
     
 #Function that calculates the summed gradient
@@ -199,7 +199,31 @@ End of neural network helper functions
 #%%
 #This contains the analysis part of the code
 def main():
-    print("Hello World")
+    #print("Hello World")
+    df = pd.read_csv("P2/NFL_Analysis.csv")
+    #print(df)
+
+    #Classifying using the neural network
+    df_copy = df
+    vals = df_copy.iloc[:,1:3]
+    target = df_copy.iloc[:,-1]
+ 
+    vals = vals.to_numpy()
+    target = target.to_numpy()
+    
+    #Getting the initial weights and bias terms using the random generator helper function
+    init_w, init_b = get_random_parameters(-10, 10, -10, 10)
+
+    init_w = np.array([1,1])
+    init_b = -16
+
+    #Using the gradient descent to get the optimal weights and bias (as well as error list) as well as the intermediate parameter
+    weights, bias, intermediate_weighs, intermediate_bias, error_list = gradeient_descent(init_w, init_b, vals, target, 0.1, 1000)
+    
+    
+    #Plotting the linear decision boundary of the optimum weights and bias
+    _class = predict(vals, weights, bias)
+    get_Linear_db(df, weights, bias, _class,"Optimum Parameters")   
 
 
 if __name__ == "__main__":
