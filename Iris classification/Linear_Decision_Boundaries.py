@@ -61,11 +61,12 @@ def misclassifiction_count(test, predicted_vals):
 
 #%%
 
+"""
 #This function will plot the second and third iris classes
 def plot_iris(df):
     fig = px.scatter(df,x="petal_length",y="petal_width",color="species",title="Iris classes")
     fig.show()
-
+"""
 
 
 #%%
@@ -148,6 +149,31 @@ def plot_over_space(weights, bias):
     plt.ylabel('Petal Width')
 
     plt.show()
+
+
+#%%
+#This will plot the 2nd and 3rd iris classes straight from the data and then plot the decision boundary on it as well
+def plot_iris(df,w,b,species):
+        #Getting the inctercept and the slope
+    c = -(b/w[1])
+    m = -(w[0]/w[1])
+    
+    #Making the arrays for the x and y axes
+    xd = np.array([2.5,7])
+    yd = m*xd + c
+    
+    fig_1 = go.Figure()
+    fig_1.add_trace(
+                go.Scatter(x=df["petal_length"], y=df["petal_width"],
+                mode='markers',
+                name='points',
+                marker = {'color':species}
+                ))
+    fig_1.add_trace(go.Scatter(x=xd, y=yd,
+                mode='lines',
+                name='decision boundary'))
+    fig_1.update_layout(title="Optimum Linear Decision boundary on the iris classes")
+    fig_1.show()
    
 
 
@@ -161,9 +187,6 @@ def main():
     
     #Extracting the 2nd and 3rd classes from the data frame
     df = df[df["species"] != "setosa"]
-
-    #Plotting the second or third iris classes
-    plot_iris(df)
     
     #Seperating the values for petal length/width from the species
     vals = df.iloc[:,2:4]
@@ -187,6 +210,10 @@ def main():
     w = np.array([-0.05,0.51])
     b = -0.6
     
+    #For part (a) of question 2: Getting the iris plot with linear decision boundary
+    plot_iris(df,w,b,species)
+
+
     #Predicting based on input weights and bias
     _class = predict(vals,w,b)
     

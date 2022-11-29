@@ -4,7 +4,7 @@ Created on Tue Nov 15 13:37:15 2022
 @author: rohansingh
 """
 
-#Module for 2 Implementation of KMeans clustering
+#Module for 2 Implementation
 
 import numpy as np
 import pandas as pd
@@ -12,6 +12,9 @@ import matplotlib.pyplot as mtp
 import random
 import plotly.express as px
 import plotly.io as pio
+import plotly.graph_objects as go
+from scipy.spatial import Voronoi, voronoi_plot_2d
+import matplotlib.pyplot as plt
 
 pio.renderers.default = 'browser'
 
@@ -113,20 +116,31 @@ class KMeans_2D:
         #Setting the centroids to a random 'k' points
         centroids = random.sample(points,k=self.k)
         
+        #This stores all of the clusters at every iteration
+        intermediate_clusters = []
+        intermediate_centroids = []
+
         #Adding the centroids to their respective classes
         for i in range(0,self.k,1):
             ls = []
             ls.append(centroids[i])
             classes.append(ls)
             
+        initial_classes = self.objectiveFunction(classes,centroids,points)
+
+
         #Reupdating the centoids until the max limit
         for i in range(0,self.max_iter,1):
             #Getting the clusters
             classes = self.objectiveFunction(classes,centroids,points)
+
+            #Adding these classifications to the list
+            intermediate_clusters.append(classes)
             
             #Updating the value of the centroids using the update function
             new_centroids = self.updateCentroids(centroids,classes)
-            
+            intermediate_centroids.append(new_centroids)
+
             #Checking if we have reached the optimal position, that is, the mean doesn't change that much
             opt = True
             
@@ -145,7 +159,7 @@ class KMeans_2D:
             
             centroids = new_centroids
         
-        #Converting the data (points and class) into a pandas dataframe
+        #Converting the data (points and class) into a pandas dataframe <= This is for the converged cluster
         p_len = []
         p_wid = []
         class_ = []
@@ -157,30 +171,168 @@ class KMeans_2D:
                 p_len.append(a[0])
                 p_wid.append(a[1])
 
-        df_1 = pd.DataFrame(list(zip(p_len,p_wid,class_)),columns=["Petal Length","Petal Width","Class"])
+        df_converged = pd.DataFrame(list(zip(p_len,p_wid,class_)),columns=["Petal Length","Petal Width","Class"])
+
+        #Converting the data (points and class) into a pandas dataframe <= This is for the initial cluster
+        p_len = []
+        p_wid = []
+        class_ = []
+        for i in range(0,len(initial_classes),1):
+            temp_class = initial_classes[i]
+            for j in range(0,len(temp_class),1):
+                class_.append(i)
+                a = temp_class[j]
+                p_len.append(a[0])
+                p_wid.append(a[1])
+
+        df_initial = pd.DataFrame(list(zip(p_len,p_wid,class_)),columns=["Petal Length","Petal Width","Class"])
+
+        #Converting the data (points and class) into a pandas dataframe <= This is for the intermediate cluster
+        p_len = []
+        p_wid = []
+        class_ = []
+        intermediate_classes = intermediate_clusters[int(len(intermediate_clusters)/2)]
+        for i in range(0,len(intermediate_classes),1):
+            temp_class = intermediate_classes[i]
+            for j in range(0,len(temp_class),1):
+                class_.append(i)
+                a = temp_class[j]
+                p_len.append(a[0])
+                p_wid.append(a[1])
+
+        df_intermediate = pd.DataFrame(list(zip(p_len,p_wid,class_)),columns=["Petal Length","Petal Width","Class"])
         
-        return df_1
+        return intermediate_centroids[0], intermediate_centroids[int(len(intermediate_clusters)/2)],centroids, df_initial, df_intermediate, df_converged
     
     #Method that predicts and plots
     def predict_and_plot(self,_title):
         #Plotting the DataFrame from the predict function using plotly
-        df_1 = self.predict()
-        fig = px.scatter(df_1, x="Petal Length", y="Petal Width", color="Class")
-        fig.update_layout(title=_title)
+        init_centroids, intermediate_centroids, converged_centroids, df_initial, df_intermediate, df_converged = self.predict()
+
+        if(df_initial.all==df_converged.all):
+            print("We have a problem")
+
+        #Plotting the initial clusters
+        fig = go.Figure()
+        fig.add_trace(
+                go.Scatter(x=df_initial["Petal Length"], y=df_initial["Petal Width"],
+                mode='markers',
+                name='points',
+                marker = {'color':df_initial["Class"]}
+                ))
+        for i in range(0,len(init_centroids),1):
+            _name = "Centroids for cluster: " + str(i)
+            fig.add_trace(
+            go.Scatter(x=np.array(init_centroids[i][0]),y=np.array(init_centroids[i][1]),
+            mode="markers",
+            name=_name
+            )
+        )
+        new_title = _title + " (Intitial Cluster) "
+        fig.update_layout(title=new_title)
         fig.show()
+
+        fig_1 = go.Figure()
+        fig_1.add_trace(
+                go.Scatter(x=df_intermediate["Petal Length"], y=df_intermediate["Petal Width"],
+                mode='markers',
+                name='points',
+                marker = {'color':df_intermediate["Class"]}
+                ))
+        for i in range(0,len(init_centroids),1):
+            _name = "Centroids for cluster: " + str(i)
+            fig_1.add_trace(
+            go.Scatter(x=np.array(intermediate_centroids[i][0]),y=np.array(intermediate_centroids[i][1]),
+            mode="markers",
+            name=_name
+            )
+        )
+        new_title = _title + " (Intermediate Cluster) "
+        fig_1.update_layout(title=new_title)
+        fig_1.show()
+
+        fig_2 = go.Figure()
+        fig_2.add_trace(
+                go.Scatter(x=df_converged["Petal Length"], y=df_converged["Petal Width"],
+                mode='markers',
+                name='points',
+                marker = {'color':df_converged["Class"]}
+                ))
+        for i in range(0,len(init_centroids),1):
+            _name = "Centroids for cluster: " + str(i)
+            fig_2.add_trace(
+            go.Scatter(x=np.array(converged_centroids[i][0]),y=np.array(converged_centroids[i][1]),
+            mode="markers",
+            name=_name
+            )
+        )
+        new_title = _title + " (Converged Cluster) "
+        fig_2.update_layout(title=new_title)
+        fig_2.show()
+
+    #Function to plot the decision boundaries
+    def plot_decision_boundaries(self,b,w):
+        #Getting the inctercept and the slope
+        c = -(b/w[1])
+        m = -(w[0]/w[1])
     
+        #Making the arrays for the x and y axes
+        xd = np.array([0,7])
+        yd = m*xd + c
 
+        #Getting the predicted values
+        init_centroids, intermediate_centroids, converged_centroids, df_initial, df_intermediate, df_converged = self.predict()
+
+        #Adding it all to a plotly grpah object
+        fig_1 = go.Figure()
+        fig_1.add_trace(go.Scatter(x=df_converged["Petal Length"], y=df_converged["Petal Width"],
+                mode='markers',
+                name='points',
+                marker = {'color':df_converged["Class"]}
+        ))
+        for i in range(0,len(init_centroids),1):
+            _name = "Centroids for cluster: " + str(i)
+            fig_1.add_trace(go.Scatter(x=np.array(converged_centroids[i][0]),y=np.array(converged_centroids[i][1]),
+                mode="markers",
+                name=_name
+            ))
+        fig_1.add_trace(go.Scatter(x=xd, y=yd,
+            mode='lines',
+            name='decision boundary'
+        ))
+        fig_1.update_layout(title="Overlaid Linear Decision boundary")
+        fig_1.show()
+
+    
+#%%
 def main():
-        Temp = KMeans_2D(k=3)
-        Temp.predict_and_plot("KMeans clustering for k = 3")
+    
+    #When k = 1
+    Temp = KMeans_2D(k=3)
+    #This method makes the predictions and plots the clutsers
+    Temp.predict_and_plot("KMeans clustering for k = 3")
 
-        Temp = KMeans_2D(k=2)
-        Temp.predict_and_plot("KMeans clustering for k = 2")
+    #PLotting the overlaid decision boundaries with optimized parameters
+    w = np.array([-0.05,0.51])
+    b = -0.6
+    Temp.plot_decision_boundaries(b,w)
+
+    """
+    print(init)
+    print(inter)
+    print(conv)
+    """
+
+    #When k = 2
+    Temp = KMeans_2D(k=2)
+    #Temp.predict_and_plot("KMeans clustering for k = 2")
+
+        
     
 if __name__ == '__main__':
     main()
     
     
-    
-    
+#%%
+
     

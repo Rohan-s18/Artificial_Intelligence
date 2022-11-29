@@ -9,11 +9,11 @@ from sklearn.metrics import classification_report
 
 def run():
     #print("Hello World!")
+    #I had a problem with pandas dataframes while using MLP, so I used scikit's load_iris() as the format worked
     iris = load_iris()
 
-    #Splitting the data into different datasets
-    datasets = train_test_split(iris.data, iris.target,
-                            test_size=0.2)
+    #Splitting the data into test and training sets
+    datasets = train_test_split(iris.data, iris.target, test_size=0.3)
 
     train_data, test_data, train_labels, test_labels = datasets
 
@@ -49,9 +49,9 @@ def run():
 def main():
     iris = load_iris()
     print(type(iris.data))
-    test, train = run()
-    print(test)
-    print(train)
+    test_results, train_results = run()
+    print(test_results)
+    print(train_results)
 
 if __name__ == "__main__":
     main()
