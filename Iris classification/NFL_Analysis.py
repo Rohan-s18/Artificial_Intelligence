@@ -12,6 +12,7 @@ import random
 import plotly.io as pio
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
 
 pio.renderers.default = 'browser'
 
@@ -197,6 +198,13 @@ End of neural network helper functions
 """
 
 #%%
+# This function will help us print the results that we obtain from the KMeans algorithm
+def plot_results_kmeans(df,_predict):
+    #print("Hello World!")
+    fig = px.scatter(df,x=df["Air Yards per Attempt"],y=df["Passer Rating"],color=_predict,title="NFL Quarterback Classification")
+    fig.show()
+
+#%%
 #This contains the analysis part of the code
 def main():
     #print("Hello World")
@@ -223,7 +231,24 @@ def main():
     
     #Plotting the linear decision boundary of the optimum weights and bias
     _class = predict(vals, weights, bias)
-    get_Linear_db(df, weights, bias, _class,"Optimum Parameters")   
+    #get_Linear_db(df, weights, bias, _class,"Optimum Parameters")  
+
+
+
+    #Using KMeans for classification of the NFL Quarterbacks 
+    x = df[["Air Yards per Attempt","Passer Rating","Total yards per game","Touchdown-Interception ratio"]]
+    
+    #Calling Scikit-Learns KMeans algorithm
+    kmeans = KMeans(n_clusters=2, init='k-means++', random_state= 42)  
+    y_predict= kmeans.fit_predict(x)    
+    #print(type(y_predict))
+
+    #Plotting the result for KMeans, so I will only be using 2 parameters 
+    x = df[["Air Yards per Attempt","Passer Rating"]]
+    #Calling Scikit-Learns KMeans algorithm
+    kmeans = KMeans(n_clusters=2, init='k-means++', random_state= 42)  
+    y_predict= kmeans.fit_predict(x)    
+    plot_results_kmeans(df,y_predict)
 
 
 if __name__ == "__main__":
