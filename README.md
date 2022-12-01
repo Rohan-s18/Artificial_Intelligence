@@ -1,7 +1,7 @@
 # Artificial Intelligence
 ## Author: Rohan Singh
 
-This repository is for my personal AI projects. The source code is in both **Java (Problem Solving using search)** and **Python (Machine Learning)**, the code in both of these directories can be used as a foundation for other AI programs that implement these algorithms. All of the source code in this directory is **made from scratch and doesn't use any external libraries like Scikit-Learn or Prophet.**
+This repository is for my personal AI projects. The source code is in both **Python** and **Java**, the code in both of these directories can be used as a foundation for other AI programs that implement these algorithms. All of the source code in this directory is **made from scratch and doesn't use any external libraries like Scikit-Learn or Prophet.**
 
 Other than the customizable templates for AI, there are also some projects that integrate these AI algorithms with real-applications, mostly games that are solved using AI algorithms. 
 
@@ -11,7 +11,7 @@ Other than the customizable templates for AI, there are also some projects that 
     - **Informed Search:** This includes A* algorithm.    
     - **Search for Optimization:** This Hill Climb Search, Simulated Annealing and beam with k states.   
     
-2) **Machine Learning: (In-progress)**    
+2) **Machine Learning: (Finished)**    
     - **Clustering:**  Classifcation of data using KMeans clustering (unsupervised).  
     - **Linear decision boundaries using a neural network:** Classification of data using Logistic Regression.    
     - **Neural Network Error:** Calculating error and gradient for a given neural network.  
