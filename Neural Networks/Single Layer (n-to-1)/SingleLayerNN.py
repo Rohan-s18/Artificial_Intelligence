@@ -44,6 +44,8 @@ class NeuralNetwork:
 
     #This will be used to train the Neural Network using gradient descent, using the input step-size and stopping point
     def train(self, epsilon, maxerr):
+        
+
 
         print("Lmao")
 
@@ -59,6 +61,39 @@ This cell contains a helper function to pre-process the data for the demonstrati
 def getData():
     dataset = []
     target = []
+
+    filepath = ""
+
+    #Reading the csv from the filepath
+    df = pd.read_csv(filepath)
+
+    #Getting numpy array columns from the dataframe
+    pet_len = df["petal_length"].to_numpy()
+    pet_wid = df["petal_width"].to_numpy()
+    sep_len = df["sepal_length"].to_numpy()
+    sep_wid = df["sepal_width"].to_numpy()
+    spec = df["species"]
+
+    for i in range(0,len(pet_len),1):
+
+        #For a row of datapoints
+        temp = []
+        temp.append(pet_len[i])
+        temp.append(pet_wid[i])
+        temp.append(sep_len[i])
+        temp.append(sep_wid[i])
+
+        #Converting Species string to float
+        if(spec[i] == "setosa"):
+            target.append(100.0)
+        elif(spec[i] == "virginica"):
+            target.append(200.0)
+        else:
+            target.append(300.0)
+
+        #Adding the row to the dataset
+        dataset.append(temp)
+
 
     return np.array(dataset), np.array(target)
 
