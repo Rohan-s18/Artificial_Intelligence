@@ -14,9 +14,10 @@ This cell contains the source code for the SingleLayer Neural Network Class
 class NeuralNetwork:
 
     #The constructor for the Neural Network class
-    def __init__(self, dataset, targets) -> None:
+    def __init__(self, dataset, targets, n):
         self.trainset = dataset
         self.targetset = targets
+        self.n = n
         pass
 
     
@@ -70,7 +71,7 @@ class NeuralNetwork:
         y = self.get_NN_Output(weights=weights)
 
         #Iterating through all of the 'n' parameter dimensions
-        for i in range(0,len(weights),1):
+        for i in range(0,self.n,1):
 
             #Calculating the gradient sum for the parameter
             grad_sum = 0
@@ -96,7 +97,7 @@ class NeuralNetwork:
     def train(self, epsilon, maxerr, maxiter):
         
         #Setting the intial weights to 0 for all of the n-parameters (and the bias)
-        w = np.zeros(len(self.trainset[0])+ 1)
+        w = np.zeros(self.n + 1)
 
         #Iterating within the maximum iteration limit
         for i in range (0,maxiter,1):
@@ -105,7 +106,7 @@ class NeuralNetwork:
             y = self.get_NN_Output(w)
 
             #Geting the total squared error for the temporary output
-            tse = self.get_TSE(y)
+            tse = self.get_TSE(w)
 
             #Checking if the mean-squared error has minimized to the threshold
             mse = tse/(len(self.trainset))
@@ -201,7 +202,7 @@ def main():
     dataset, target = get_data()
 
     #Instantiating the Neural Network Object
-    DemoNN = NeuralNetwork(dataset=dataset,targets=target)
+    DemoNN = NeuralNetwork(dataset=dataset,targets=target,n=4)
     #out = DemoNN.get_NN_Output(np.array([1,1,1,1,1]))
     DemoNN.train(0.001,500,10000)
     out = DemoNN.predict()
