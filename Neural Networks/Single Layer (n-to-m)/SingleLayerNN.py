@@ -14,10 +14,11 @@ This cell contains the source code for the SingleLayer Neural Network Class
 class NeuralNetwork:
 
     #The constructor for the Neural Network class
-    def __init__(self, dataset, targets, n):
+    def __init__(self, dataset, targets, n, m):
         self.trainset = dataset
         self.targetset = targets
         self.n = n
+        self.m = m
         pass
 
     
