@@ -19,6 +19,7 @@ class NeuralNetwork:
         self.targetset = targets
         self.n = n
         self.m = m
+        self.init_w = np.zeros([m,n+1])
         pass
 
     
@@ -108,10 +109,11 @@ class NeuralNetwork:
 
 
     #This will be used to train the Neural Network using gradient descent, using the input step-size and stopping point and a maximum iteration count
-    def train(self, epsilon, maxerr, maxiter):
+    def train(self, epsilon, maxerr, maxiter, init_weights):
         
-        #Setting the intial weights to 0 for all of the n-parameters (and the bias)
-        w = np.zeros(self.n + 1)
+        #Setting the intial weights to 0 for all of the n-parameters (and the bias), this makes the initial matrix an MxN matrix
+
+        w = init_weights
 
         #Iterating within the maximum iteration limit
         for i in range (0,maxiter,1):
@@ -179,27 +181,24 @@ def get_data():
     pet_wid = df["petal_width"].to_numpy()
     sep_len = df["sepal_length"].to_numpy()
     sep_wid = df["sepal_width"].to_numpy()
-    spec = df["species"]
 
     for i in range(0,len(pet_len),1):
 
         #For a row of datapoints
-        temp = []
-        temp.append(pet_len[i])
-        temp.append(pet_wid[i])
-        temp.append(sep_len[i])
-        temp.append(sep_wid[i])
+        data_row = []
+        data_row.append(pet_len[i])
+        data_row.append(pet_wid[i])
 
-        #Converting Species string to float
-        if(spec[i] == "setosa"):
-            target.append(100.0)
-        elif(spec[i] == "virginica"):
-            target.append(200.0)
-        else:
-            target.append(300.0)
+        #For a row of the targets
+        target_row = []
+        target_row.append(sep_len[i])
+        target_row.append(sep_wid[i])
 
         #Adding the row to the dataset
-        dataset.append(temp)
+        dataset.append(data_row)
+
+        #Adding  the row to the target
+        target.append(target_row)
 
 
     return np.array(dataset), np.array(target)
@@ -216,9 +215,10 @@ def main():
     dataset, target = get_data()
 
     #Instantiating the Neural Network Object
-    DemoNN = NeuralNetwork(dataset=dataset,targets=target,n=4)
-    #out = DemoNN.get_NN_Output(np.array([1,1,1,1,1]))
-    DemoNN.train(0.001,500,10000)
+    DemoNN = NeuralNetwork(dataset=dataset,targets=target,n=2,m=2)
+    #out = DemoNN.get_NN_Output(np.array([1,1,1]))
+
+    DemoNN.train(0.001,500,10000,init_weights=np.zeros([2,3]))
     out = DemoNN.predict(dataset)
     print(out)
 
