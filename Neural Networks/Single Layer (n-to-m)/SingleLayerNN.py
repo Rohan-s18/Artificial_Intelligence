@@ -151,7 +151,8 @@ class NeuralNetwork:
             summed_grad = self.get_summed_gradient(w)
             
             #Updating the weights for the next iteration
-            w -= (epsilon*summed_grad)
+            summed_grad *= epsilon
+            w -= summed_grad
 
         self.trained_weight = w
         #Returning the optimal weights 
@@ -236,9 +237,9 @@ def main():
     DemoNN = NeuralNetwork(dataset=dataset,targets=target,n=2,m=2)
     #out = DemoNN.get_TSE(np.array([[1,1,1],[1,1,1]]))
 
-    out = DemoNN.train(0.0001,5,10000)
-    #out = DemoNN.get_summed_gradient([[0,0,0],[0,0,0]])
-    out = DemoNN.predict(dataset)
+    #out = DemoNN.train(0.0001,5,10000)
+    out = DemoNN.get_summed_gradient([[0,0,0],[0,0,0],[0,0,0]])
+    #out = DemoNN.predict(dataset)
     print(out)
 
 
