@@ -108,8 +108,8 @@ class NeuralNetwork:
             gradient.append(grad_sum)
 
         
-
-        return np.array(gradient)
+        gradient = np.array(gradient)
+        return np.transpose(gradient)
 
     #This function will be used to create a matrix of initial weights
     def initial_weights(self):
@@ -235,11 +235,12 @@ def main():
 
     #Instantiating the Neural Network Object
     DemoNN = NeuralNetwork(dataset=dataset,targets=target,n=2,m=2)
-    #out = DemoNN.get_TSE(np.array([[1,1,1],[1,1,1]]))
 
-    #out = DemoNN.train(0.0001,5,10000)
-    out = DemoNN.get_summed_gradient([[0,0,0],[0,0,0],[0,0,0]])
-    #out = DemoNN.predict(dataset)
+    #Training the model
+    out = DemoNN.train(0.0001,5,10000)
+
+    #Using the predict function of the model
+    out = DemoNN.predict(dataset)
     print(out)
 
 
