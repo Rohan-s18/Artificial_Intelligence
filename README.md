@@ -3,9 +3,16 @@
 
 This repository is for my personal AI projects. The source code is in both **Python** and **Java**, the code in both of these directories can be used as a foundation for other AI programs that implement these algorithms. All of the source code in this directory is **made from scratch and doesn't use any external libraries like Scikit-Learn or Prophet.**
 
-Other than the customizable templates for AI, there are also some projects that integrate these AI algorithms with real-applications, mostly games that are solved using AI algorithms. 
+Other than the customizable templates for AI, there are also some projects that integrate these AI algorithms with real-applications, mostly games that are solved using AI algorithms.  
 
-## AI/ML Source Code directories:   
+This repository is divided into 4 different parts:   
+  - **AI/ML Source Code:** This contains the source code for different AI/ML algorithms in Java and Python.  
+  - **Neural Networks:** This contains an exstensive collection of general Neural Networks in Python.  
+  - **AI based implementations:** This contains some implementations of the AI/ML algorithms that I developed.  
+  - **AI Help:** This contains source code for the prerequisites of AI, such as probability, graph ADTs and Python.  
+
+## AI/ML Source Code:   
+This Directory contains the source code for different AI/ML algorithms which are further divided into their own subgroups within this directory. These subgroups include:   
 1) **Problem Solving with Search: (Finished)**  
     - **Uninformed Search**: This includes depth-first, breadth-first traversals and uniform-cost search (Also in Python).  
     - **Informed Search:** This includes A* algorithm.    
@@ -21,7 +28,15 @@ Other than the customizable templates for AI, there are also some projects that 
     - Sequential Decision Making  
     - Reinforcement Learning  
     - Natural Language Processing    
-    
+
+## Neural Networks
+This Directory contains the source code for different types of General Neural Networks developed from scratch. These Neural Networks are divided into theior own subcategories, and can be used based in different applications since they are more general.  
+The types of Neural Networks that are included here are:  
+  - **Single Layer (Multi-input -> Single-output):** This directory contains source code for a general single layer n-to-1 neural network.   
+  - **Single Layer (Multi-input -> Multi-output):** This directory contains source code for a general single layer n-to-m neural network.  
+  - **Hidden Layer (Multi-input -> Single-output):** This directory contains source code for a general non-linearity (hidden layer) n-to-1 neural network.      
+  - **Hidden Layer (Multi-input -> Multi-output):** This directory contains source code for a general non-linearity (hidden layer) n-to-m neural network. 
+
 ## AI-based Implementations:  
 1) **Eight puzzle solver:** Source Code for an *Eight-Puzzle* solving algorithm. The source code includes both the game (which someone could play) as well as the solving algorithm. This was achieved using both A* search algorithm as well as k-states beam search. Source code is in Java.    
 2) **Iris species classifier:** Source Code for classifying the *species of Iris flowers* given their petal/sepal dimensions. The Source Code is in Python and it includes:  
