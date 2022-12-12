@@ -1,6 +1,6 @@
 # Author: Rohan Singh
-# Date: 12/10/2022
-# Source code for a general purpose single-layer n-to-m neural network, i.e. The network takes in an n-dimensional input vector and returns an m-dimension vector output
+# Date: 12/12/2022
+# Source code for a general purpose hidden-layer n-to-m neural network using a sigmoid non-linearity, i.e. The network takes in an n-dimensional input vector and returns m-dimension vector output
 
 #imports 
 import pandas as pd
