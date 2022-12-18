@@ -16,7 +16,7 @@ This Directory contains the source code for different AI/ML algorithms which are
 1) **Problem Solving with Search: (Finished)**  
     - **Uninformed Search**: This includes depth-first, breadth-first traversals and uniform-cost search (Also in Python).  
     - **Informed Search:** This includes A* algorithm.    
-    - **Search for Optimization:** This Hill Climb Search, Simulated Annealing and beam with k states.   
+    - **Search for Optimization:** This includes Hill Climb Search, Simulated Annealing and beam with k states.   
     
 2) **Machine Learning: (Finished)**    
     - **Clustering:**  Classifcation of data using KMeans clustering (unsupervised).  
