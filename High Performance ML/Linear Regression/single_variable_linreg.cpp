@@ -27,15 +27,13 @@ class LinearRegression{
 
 
     //Helper function to get an array for all of the outputs
-    double* get_output(double temp_bias, double temp_weight, double set[], int len){
-        double arr[len];
+    void get_output(double temp_bias, double temp_weight, double set[], int len, double arr[]){
 
         //Traversing through the input array
         for(int i = 0; i < len; i++){
             arr[i] = (set[i]*temp_weight) + temp_bias;
         }
 
-        return arr;
     }
 
     //Helper function to get the Total Squared Error for the given weights 
@@ -50,8 +48,7 @@ class LinearRegression{
     }
 
     //Helper function to get the gradient (the gradient vector is an R^2 vector for bias and weight)
-    double* get_gradient(double output[]){
-        double gradient[2];
+    void get_gradient(double output[], double gradient[]){
 
         //Bias and Weight gradients
         double bias_grad, weight_grad;
@@ -63,7 +60,7 @@ class LinearRegression{
 
         gradient[0] = bias_grad;
         gradient[1] = weight_grad;
-        return gradient;
+        
     }
 
 
@@ -100,7 +97,7 @@ class LinearRegression{
         for(int i = 0; i < max_iter; i++){
 
             //Getting the output
-            temp_output = this->get_output(temp_bias, temp_weight, this->dataset, this->dataset_length);
+            this->get_output(temp_bias, temp_weight, this->dataset, this->dataset_length,temp_output);
             
             //Getting the error and gradient
             err = get_mse(temp_output);
@@ -112,7 +109,7 @@ class LinearRegression{
             }
                 
 
-            gradient = get_gradient(temp_output);
+            get_gradient(temp_output, gradient);
 
             //Updating the bias and weight terms using gradient descent
             temp_bias -= eps*gradient[0];
@@ -121,15 +118,15 @@ class LinearRegression{
         }
 
         this->bias = temp_bias;
-        this->weight = weight;
+        this->weight = temp_weight;
 
 
     }
 
     //Prediction function for Single-Variable Linear Regression
-    double* predict(double test_set[], int test_len){
+    void predict(double test_set[], int test_len, double output[]){
         //Using the optimal values from training for the prediction
-        return this->get_output(this->bias,this->weight,test_set,test_len);
+        this->get_output(this->bias,this->weight,test_set,test_len,output);
     }
 
 
@@ -152,4 +149,31 @@ int main(){
     std::cout<<"\n";
 
     return 0;
+}
+
+
+//  Demonstration function
+void single_variable_demo(){
+    
+    double dataset[10] = {0,1,2,3,4,5,6,7,8,9};
+    double target[10] = {4,6,8,10,12,14,16,18,20,22};
+
+
+    LinearRegression* demo = new LinearRegression(target,dataset,10);
+    demo->train(100000,0.001,0.001);
+
+    double input[10] = {10,11,12,13,14,15,16,17,18,19};
+    double* output;
+
+    output = (double*)malloc(10*sizeof(double));
+
+    demo->predict(input, 10, output);
+
+    print_array(output, 10);
+}
+
+
+//  Testing function
+void single_variable_test(){
+
 }
