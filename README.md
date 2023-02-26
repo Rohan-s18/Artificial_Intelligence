@@ -37,6 +37,12 @@ The types of Neural Networks that are included here are:
   - **Hidden Layer (Multi-input -> Single-output):** This directory contains source code for a general non-linearity (hidden layer) n-to-1 neural network.      
   - **Hidden Layer (Multi-input -> Multi-output):** This directory contains source code for a general non-linearity (hidden layer) n-to-m neural network. 
 
+## High-Performance ML
+This directory contains the source code for High-Performace machine learning code in C++. Since it is compiled code, it is much faster than interpreted (Python) ML code.  
+Machine Learning Code:  
+  - **Linear Regression:** Single Variable Linear Regression has been implemented.  
+  - **KMeans Clustering:** Currently in progress.  
+
 ## AI-based Implementations:  
 1) **Eight puzzle solver:** Source Code for an *Eight-Puzzle* solving algorithm. The source code includes both the game (which someone could play) as well as the solving algorithm. This was achieved using both A* search algorithm as well as k-states beam search. Source code is in Java.    
 2) **Iris species classifier:** Source Code for classifying the *species of Iris flowers* given their petal/sepal dimensions. The Source Code is in Python and it includes:  
