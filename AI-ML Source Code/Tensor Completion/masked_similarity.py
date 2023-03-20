@@ -1,12 +1,20 @@
 """
 Author: Rohan Singh
-Python Module for finding creating a similarity matrix between two vectors
+Python Module for finding creating a similarity matrix between two matrices
 """
 
 #  Imports
 import numpy as np
 import matplotlib.pyplot as plt
 import random as rand
+import pandas as pd
+
+
+
+#  Helper function to get the masked matrix
+def get_matrix(filepath):
+    df = pd.read_csv(filepath)
+    return df.to_numpy()
 
 
 
@@ -14,6 +22,17 @@ import random as rand
 def create_random_square_matrix(n,min,max)->np.ndarray:
     matrix = []
     for i in range (0,n,1):
+        temp = np.zeros(n)
+        for j in range(0,n,1):
+            temp[j] = (min+int((max-min)*rand.random()))
+        matrix.append(temp)
+    return np.array(matrix)
+
+
+#  Helper Function to create a random numpy  matrix
+def create_random_matrix(n, m, min,max)->np.ndarray:
+    matrix = []
+    for i in range (0,m,1):
         temp = np.zeros(n)
         for j in range(0,n,1):
             temp[j] = (min+int((max-min)*rand.random()))
@@ -60,6 +79,15 @@ def main():
     S_2 = get_similarity(A,B)
     print("\n")
     print("The Similarity Matrix for A and B is:\n",S_2,"\n\n")
+
+    #Creating a matrix
+    C = create_random_matrix(3,5,-10,10)
+    print("THe Matrix C is:\n",C,"\n\n")
+    
+    #Getting the similarity matrix between the same matrix
+    S_3 = get_similarity(C,C)
+    print("\n")
+    print("The Similarity Matrix for C and C is:\n",S_3,"\n\n")
 
 
 
