@@ -1,6 +1,6 @@
 """
 Author: Nishita Singh
-Python Module for testing hypothesis 1
+Python Module for testing hypothesis 1 and 2
 """
 
 
@@ -220,6 +220,44 @@ def get_data_2(filepath):
 
 
     return np.array(dataset), np.array(target)
+
+def get_data_3(filepath):
+    dataset = []
+    target = []
+
+    #Reading the csv from the filepath
+    df = pd.read_csv(filepath)
+
+    #Getting numpy array columns from the dataframe
+    fO = df["family ownership"].to_numpy()
+    FP = df["Firm performance"].to_numpy()
+
+    EH = df["environment hostility"].to_numpy()
+    PE = df["professional executive"].to_numpy()
+
+    #ITI = df["IT investment"].to_numpy()
+
+    for i in range(0,len(fO),1):
+
+        #For a row of datapoints
+        temp = []
+        temp.append(fO[i])
+        temp.append(EH[i])
+        temp.append(PE[i])
+        
+        target.append(FP[i])
+        
+        #target.append(ITI[i])
+
+
+        #Adding the row to the dataset
+        dataset.append(temp)
+
+
+    return np.array(dataset), np.array(target)
+
+    
+
 
 #%%
 
