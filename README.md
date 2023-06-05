@@ -1,7 +1,7 @@
 # Artificial Intelligence
 ## Author: Rohan Singh
 
-This repository is for my personal AI projects. The source code is in both **Python** and **Java**, the code in both of these directories can be used as a foundation for other AI programs that implement these algorithms. All of the source code in this directory is **made from scratch and doesn't use any external libraries like Scikit-Learn or Prophet.**
+This repository is for my personal AI projects. The source code is in both **Python**, **C++** and **Java**, the code in both of these directories can be used as a foundation for other AI programs that implement these algorithms. All of the source code in this directory is **made from scratch and doesn't use any external libraries like Scikit-Learn or Prophet.**
 
 Other than the customizable templates for AI, there are also some projects that integrate these AI algorithms with real-applications, mostly games that are solved using AI algorithms.  
 
