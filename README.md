@@ -10,7 +10,8 @@ This repository is divided into 4 different parts:
   - **Neural Networks:** This contains an exstensive collection of general Neural Networks in Python.  
   - **High Performance ML:** This contains C++ source code for High-Performance Machine Learning.  
   - **AI based implementations:** This contains some implementations of the AI/ML algorithms that I developed.  
-  - **AI Help:** This contains source code for the prerequisites of AI, such as probability, graph ADTs and Python.  
+  - **AI Help:** This contains source code for the prerequisites of AI, such as probability, graph ADTs and Python.
+  - **Natural Language Processing:** This contains code for Natural Language Processing (as the name suggests).
 
 ## AI/ML Source Code:   
 This Directory contains the source code for different AI/ML algorithms which are further divided into their own subgroups within this directory. These subgroups include:   
