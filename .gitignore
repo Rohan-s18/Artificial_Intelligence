@@ -9,3 +9,5 @@ a.out
 vscode
 
 *.csv
+
+__pycache__
