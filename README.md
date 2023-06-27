@@ -1,7 +1,7 @@
 # Artificial Intelligence
 ## Author: Rohan Singh
 
-This repository is for my personal AI projects. The source code is in both **Python** and **Java**, the code in both of these directories can be used as a foundation for other AI programs that implement these algorithms. All of the source code in this directory is **made from scratch and doesn't use any external libraries like Scikit-Learn or Prophet.**
+This repository is for my personal AI projects. The source code is in both **Python**, **C++** and **Java**, the code in both of these directories can be used as a foundation for other AI programs that implement these algorithms. All of the source code in this directory is **made from scratch and doesn't use any external libraries like Scikit-Learn or Prophet.**
 
 Other than the customizable templates for AI, there are also some projects that integrate these AI algorithms with real-applications, mostly games that are solved using AI algorithms.  
 
@@ -10,7 +10,8 @@ This repository is divided into 4 different parts:
   - **Neural Networks:** This contains an exstensive collection of general Neural Networks in Python.  
   - **High Performance ML:** This contains C++ source code for High-Performance Machine Learning.  
   - **AI based implementations:** This contains some implementations of the AI/ML algorithms that I developed.  
-  - **AI Help:** This contains source code for the prerequisites of AI, such as probability, graph ADTs and Python.  
+  - **AI Help:** This contains source code for the prerequisites of AI, such as probability, graph ADTs and Python.
+  - **Natural Language Processing:** This contains code for Natural Language Processing (as the name suggests).
 
 ## AI/ML Source Code:   
 This Directory contains the source code for different AI/ML algorithms which are further divided into their own subgroups within this directory. These subgroups include:   
