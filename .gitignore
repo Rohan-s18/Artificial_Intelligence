@@ -16,4 +16,6 @@ vscode
 
 *.html
 
+*.pickle
+
 __pycache__
