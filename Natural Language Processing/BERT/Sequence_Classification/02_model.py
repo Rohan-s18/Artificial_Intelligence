@@ -41,7 +41,12 @@ Function for making a dataset
 """
 
 def make_dataset(df, text_title, sequence_title, split_size):
-    pass
+    return Dataset.from_dict(
+        dict(
+            utterances=df["text_title"].to_list(),
+            labels=df["sequence_title"].to_list()
+        )
+    ).train_test_split(test_size=split_size)
 
 
 #%%
