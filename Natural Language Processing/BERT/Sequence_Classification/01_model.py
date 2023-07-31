@@ -35,6 +35,18 @@ from datasets import Dataset, load_metric
 # BERT Libraries
 from transformers import DistilBertTokenizerFast, DistilBertForSequenceClassification, pipeline, Trainer, TrainingArguments, DataCollatorWithPadding
 
+
+#%%
+"""
+This cell contains constants
+"""
+
+STRIDE=32
+
+nlp = spacy.load('en_core_web_sm')
+
+
+
 #%%
 """
 Function for making a dataset
@@ -57,8 +69,8 @@ def make_dataset(df, text_title, sequence_title, split_size):
 Function to preprocess the Data
 """
 
-def preprocess_function(tokenizer, examples, stride):
-    return tokenizer(examples["utterance"],truncation=True, stride=stride)
+def preprocess_function(tokenizer, examples):
+    return tokenizer(examples["utterance"],truncation=True, stride=STRIDE)
 
 
 #%%
@@ -66,8 +78,8 @@ def preprocess_function(tokenizer, examples, stride):
 Function to tokenize the dataset
 """
 
-def tokenize_dataset(dataset, tokenizer, stride):
-    pass
+def tokenize_dataset(dataset, tokenizer):
+    return dataset.map(preprocess_function,batched=True)
 
 
 #%%
