@@ -33,7 +33,7 @@ from spacy.lang.en import English
 from datasets import Dataset, load_metric
 
 # BERT Libraries
-from transformers import DistilBertTokenizerFast, DistilBertForSequenceClassification, Pipeline, Trainer, TrainingArguments
+from transformers import DistilBertTokenizerFast, DistilBertForSequenceClassification, pipeline, Trainer, TrainingArguments, DataCollatorWithPadding
 
 #%%
 """
@@ -41,10 +41,13 @@ Function for making a dataset
 """
 
 def make_dataset(df, text_title, sequence_title, split_size):
+    df = df[df[text_title].str.len() < 500]
+
     return Dataset.from_dict(
         dict(
-            utterances=df["text_title"].to_list(),
-            labels=df["sequence_title"].to_list()
+            utterances=df[text_title].to_list(),
+            tokenized_utterances=df[text_title].str.split(),
+            labels=df[sequence_title].to_list()
         )
     ).train_test_split(test_size=split_size)
 
@@ -54,8 +57,8 @@ def make_dataset(df, text_title, sequence_title, split_size):
 Function to preprocess the Data
 """
 
-def preprocess_function(examples):
-    pass
+def preprocess_function(tokenizer, examples, stride):
+    return tokenizer(examples["utterance"],truncation=True, stride=stride)
 
 
 #%%
