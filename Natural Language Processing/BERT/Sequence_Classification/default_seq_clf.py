@@ -1,7 +1,7 @@
 """
 Author: Rohan Singh
-Date: July 25, 2023
-This module contains code for a simple sequence classification model using DistilBERT
+Date: July 31, 2023
+This python module contains code for a defulat sequence classification model using BERT
 """
 
 #%%
@@ -48,7 +48,6 @@ nlp = spacy.load('en_core_web_sm')
 metric = load_metric('accuracy')
 
 
-
 #%%
 """
 Function for making a dataset
@@ -74,7 +73,6 @@ Function to preprocess the Data
 def preprocess_function(tokenizer, examples):
     return tokenizer(examples["utterance"],truncation=True, stride=STRIDE)
 
-
 #%%
 """
 Function to tokenize the dataset
@@ -94,21 +92,17 @@ def compute_metrics(eval_pred):
     return metric.compute(predictions=predictions, references=labels)
 
 
+
+
 #%%
 """
-Main function to run the model
+This function will run the model with the default settings
 """
 
-def main():
+def run_default(df, text_title, sequence_title, epochs, num_labels, label2id, id2label, output_dir):
     
-    # Obtaining the dataframe
-    filepath= ""
-    df = pd.read_csv(filepath)
-    demo_text_title = ""
-    demo_sequence_title = ""
-
     # Creating the dataset
-    demo_dataset = make_dataset(df, sequence_title=demo_sequence_title, text_title=demo_text_title)
+    demo_dataset = make_dataset(df, sequence_title=sequence_title, text_title=text_title)
 
     # Tokenizing the dataset
     tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
@@ -116,16 +110,11 @@ def main():
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
     # Loading the model
-    id2label = {}
-    label2id = {}
-    num_labels = 0
     sequence_clf_model = DistilBertForSequenceClassification.from_pretrained('distilbert-base-uncased',num_labels=num_labels,
                                                                              id2label=id2label,label2id=label2id)
     
     # Setting up the training arguments
     epochs = 20
-    output_dir = ""
-    #training_args = TrainingArguments(output_dir=output_dir, num_train_epochs=epochs, per_device_train_batch_size=32, per_gpu_eval_batch_size=32, load_best_model_at_end=True, warmup_steps = len(demo_dataset['train'])weight_decay=0.05, logging_steps=1, log_level='info', evaluation_strategy='epoch', save_strategy='epoch')
     training_args = TrainingArguments(
 
         output_dir=output_dir,
@@ -159,11 +148,9 @@ def main():
     trainer.train()
     print("Final:\n",trainer.evaluate(),"\n\n")
 
+    # returning the trained model
+    return sequence_clf_model
 
-
-
-if __name__ == "__main__":
-    main()
 
 
 #%%

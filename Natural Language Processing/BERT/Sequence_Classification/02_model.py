@@ -115,14 +115,14 @@ def main():
     demo_dataset = tokenize_dataset(dataset=demo_dataset)
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
-    #Loading the model
+    # Loading the model
     id2label = {}
     label2id = {}
     num_labels = 0
     sequence_clf_model = DistilBertForSequenceClassification.from_pretrained('distilbert-base-uncased',num_labels=num_labels,
                                                                              id2label=id2label,label2id=label2id)
     
-    #Setting up the training arguments
+    # Setting up the training arguments
     epochs = 20
     output_dir = ""
     #training_args = TrainingArguments(output_dir=output_dir, num_train_epochs=epochs, per_device_train_batch_size=32, per_gpu_eval_batch_size=32, load_best_model_at_end=True, warmup_steps = len(demo_dataset['train'])weight_decay=0.05, logging_steps=1, log_level='info', evaluation_strategy='epoch', save_strategy='epoch')
