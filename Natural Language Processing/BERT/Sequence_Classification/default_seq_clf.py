@@ -1,7 +1,7 @@
 """
 Author: Rohan Singh
 Date: July 31, 2023
-This python module contains code for a defulat sequence classification model using BERT
+This python module contains code for a default sequence classification model using BERT
 """
 
 #%%
