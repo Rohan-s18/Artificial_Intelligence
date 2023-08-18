@@ -5,6 +5,7 @@ Date: Aug 15, 2023
 """
 
 # Imports
+import torch
 from transformers import T5ForConditionalGeneration, T5Tokenizer
 
 base_model = T5ForConditionalGeneration.from_pretrained('t5-base')
