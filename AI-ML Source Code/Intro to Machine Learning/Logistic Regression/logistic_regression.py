@@ -5,10 +5,13 @@ This Python module contains code for a simple logistic classifier
 
 # Imports
 import numpy as np
+
 from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
 class LogisticRegression:
-    def __init__(self, learning_rate=0.01, num_iterations=1000):
+    def __init__(self, learning_rate=0.01, num_iterations=1000000):
         self.learning_rate = learning_rate
         self.num_iterations = num_iterations
         self.weights = None
@@ -42,7 +45,21 @@ class LogisticRegression:
 # Main function for testing
 def main():
     iris_data = load_iris()
-    print(type(iris_data))
+
+    data = np.array(iris_data.data)
+    target = np.array(iris_data.target)
+
+    X_train, X_test, y_train, y_test = train_test_split(data, target, test_size=0.2)
+
+
+
+    regressor = LogisticRegression()
+    regressor.fit(X_train,y_train)
+
+    print("\n")
+    print(accuracy_score(regressor.predict(X_test), y_test))
+    print("\n")
+
 
 if __name__ == "__main__":
     main()
