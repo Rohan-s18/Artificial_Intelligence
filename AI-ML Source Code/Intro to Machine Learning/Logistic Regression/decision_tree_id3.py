@@ -6,6 +6,8 @@ from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
+from logistic_regression import LogisticRegression
+
 class Node:
     def __init__(self, data):
         self.data = data
@@ -70,6 +72,7 @@ def build_tree(X, y, features):
 
     return root
 
+
 def predict_tree(node, X):
     if node.label is not None:
         return node.label
@@ -86,16 +89,44 @@ class DecisionTreeID3:
     def __init__(self):
         self.root = None
 
+        self.max_label = None
+
+        # Regressor Object for the tree
+        self.regressor = None
+
     def fit(self, X, y):
+
+        """
+        self.regressor = LogisticRegression()
+        self.regressor.fit(X,y)
+
+        # Adding a new feature which is the predicted values from the Logistic Regression Classifier
+        logistic_predictions = self.regressor.predict(X)
+
+
+        X = np.append(X, logistic_predictions)
+        """
+
+        self.max_label = np.argmax(np.bincount(y))
+
         num_features = X.shape[1]
         features = list(range(num_features))
         self.root = build_tree(X, y, features)
 
     def predict(self, X):
+
+        """
+        logistic_predictions = self.regressor.predict(X)
+        X = np.append(X, logistic_predictions)
+        """
+
         predictions = []
         for x in X:
             prediction = predict_tree(self.root, x)
-            predictions.append(prediction)
+            if prediction == None:
+                predictions.append(self.max_label)
+            else:
+                predictions.append(prediction)
         return predictions
 
 

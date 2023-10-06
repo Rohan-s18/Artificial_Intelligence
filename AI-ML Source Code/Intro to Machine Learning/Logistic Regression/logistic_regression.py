@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
 class LogisticRegression:
-    def __init__(self, learning_rate=0.01, num_iterations=1000000):
+    def __init__(self, learning_rate=0.01, num_iterations=100000):
         self.learning_rate = learning_rate
         self.num_iterations = num_iterations
         self.weights = None
