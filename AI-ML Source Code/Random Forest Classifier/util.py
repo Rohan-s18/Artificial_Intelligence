@@ -71,3 +71,13 @@ def majority_vote(y):
     majority_label = unique_labels[np.argmax(label_counts)]
     return majority_label
 
+def bootstrap_sample(X, y):
+    """
+    Create a bootstrap sample from the data.
+    """
+    n_samples = X.shape[0]
+    indices = np.random.choice(n_samples, size=n_samples, replace=True)
+    bootstrap_X = X[indices]
+    bootstrap_y = y[indices]
+    return bootstrap_X, bootstrap_y
+
