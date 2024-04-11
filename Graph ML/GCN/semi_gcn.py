@@ -1,5 +1,5 @@
 """
-Semi-supervised Anomaly Detection on Attributed Graphs implementation for CSDS 440 final project
+Semi-supervised Anomaly Detection on Attributed Graphs implementation for CSDS 491
 Author: Rohan Singh
 """
 
@@ -7,23 +7,22 @@ Author: Rohan Singh
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-
 from sklearn import model_selection, preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import roc_curve
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.nn.parameter import Parameter
-
 import time
 import math
 import random
 
-manual_seed=7
+
+
+
 
 
 manual_seed=7

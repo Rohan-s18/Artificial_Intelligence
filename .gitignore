@@ -19,3 +19,6 @@ vscode
 *.pickle
 
 __pycache__
+
+
+*.mat
